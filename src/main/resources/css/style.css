@@ -1,0 +1,90 @@
+.background {
+	-fx-background-image: url('../img/background2.png');
+	-fx-background-size: cover;
+}
+.transparent {
+    -fx-background-color: transparent;
+}
+.viewport{
+    -fx-background-color: transparent;
+}
+.content{
+    -fx-background-color: transparent;
+}
+/* Chat window */
+.chat-window {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+.chat-window .list-cell {
+    -fx-background-color: transparent;
+    -fx-label-padding: 0 0 20 0;
+}/*
+.chat-window .list-cell > .text-flow{
+    -fx-max-width: 20px;
+    -fx-wrap-text: true;
+}*/
+
+/* End of chat window */
+.input-wrapper {
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+.chat-input {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 18;
+}
+
+.top-bar{
+    -fx-background-color: rgba(255,255,255,0.1);
+}
+
+.button {
+    -fx-background-color: #191919;
+    -fx-cursor: hand;
+}
+.button:hover {
+    -fx-background-color: #323232;
+}
+.button:pressed {
+    -fx-background-color: black;
+}
+/* Scrollbar Skin */
+.scroll-bar{
+ -fx-background-color: transparent;
+ -fx-background-radius: 2em;
+}
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+ -fx-background-color: transparent;
+ -fx-border-color:transparent;
+ -fx-background-radius: 2em;
+}
+.scroll-bar:vertical .track-background,
+.scroll-bar:horizontal .track-background {
+ -fx-background-color: transparent;
+ -fx-background-insets: 0;
+ -fx-background-radius: 2em;
+}
+.scroll-bar:horizontal .thumb {
+ -fx-background-color: rgb(211,211,211);
+ -fx-background-insets: 4 0 4 0;
+ -fx-background-radius: 2em;
+}
+.scroll-bar:vertical .thumb {
+ -fx-background-color: rgb(211,211,211);
+ -fx-background-insets: 0 4 0 4;
+ -fx-background-radius: 2em;
+}
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+ -fx-background-color: rgb(231,231,231);
+}
+.scroll-bar:horizontal .thumb:pressed,
+.scroll-bar:vertical .thumb:pressed {
+ -fx-background-color: rgb(255,255,255);
+}
+.scroll-bar:vertical:focused,
+.scroll-bar:horizontal:focused {
+ -fx-background-color: transparent,rgb(96,96,96),rgb(96,96,96);
+}
