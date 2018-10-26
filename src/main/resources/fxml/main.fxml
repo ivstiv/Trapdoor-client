@@ -15,7 +15,7 @@
    <top>
       <HBox fx:id="topBar" prefHeight="61.0" prefWidth="1280.0" styleClass="top-bar" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="164.0" text="CONNECT" textFill="WHITE">
+            <Button mnemonicParsing="false" onMouseClicked="#openConnectWindow" prefHeight="42.0" prefWidth="164.0" text="CONNECT" textFill="WHITE">
                <font>
                   <Font name="Consolas Bold" size="22.0" />
                </font>
@@ -73,19 +73,16 @@
    <bottom>
       <VBox prefHeight="159.0" prefWidth="1280.0" styleClass="input-wrapper" BorderPane.alignment="CENTER">
          <children>
-            <Label prefHeight="28.0" prefWidth="1285.0" text="call _printf:" textFill="WHITE">
-               <font>
-                  <Font name="Consolas Bold" size="20.0" />
-               </font>
+            <TextFlow fx:id="bashrc" prefHeight="101.0" prefWidth="1280.0">
                <padding>
-                  <Insets left="10.0" top="5.0" />
+                  <Insets bottom="10.0" left="10.0" top="10.0" />
                </padding>
-            </Label>
+            </TextFlow>
             <TextArea prefHeight="200.0" prefWidth="200.0" styleClass="chat-input" />
          </children>
       </VBox>
    </bottom>
    <center>
-      <ListView fx:id="chat" maxHeight="500.0" maxWidth="1280.0" prefHeight="500.0" prefWidth="200.0" styleClass="chat-window" BorderPane.alignment="CENTER" />
+      <ListView fx:id="chat" styleClass="chat-window" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

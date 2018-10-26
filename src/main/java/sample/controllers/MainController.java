@@ -5,8 +5,11 @@ import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -21,8 +24,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import sample.communication.ConnectionHandler;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,6 +38,7 @@ public class MainController implements Initializable {
     @FXML private ListView<TextFlow> chat;
     @FXML private Button closeBtn, minimiseBtn, settingsBtn;
     @FXML private HBox topBar;
+    @FXML private TextFlow bashrc;
 
 
     public MainController(Stage stage) {
@@ -41,6 +47,8 @@ public class MainController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
+        //Test dummy functions
+        setBashrc();
         joinMsg("SKDown");
         addMsg("1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
         addMsg("2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
@@ -139,11 +147,46 @@ public class MainController implements Initializable {
         flow.getChildren().addAll(t1,t2,t3,t4);
         chat.getItems().add(flow);
     }
-}
 
-class Offset {
-    double x, y;
-    public Offset() {
-        x = 0; y = 0;
+    public void setBashrc() {
+
+        Text nick = new Text("SKDown");
+        Text at = new Text("@");
+        Text ip = new Text("164.132.56.199");
+        Text dots = new Text(":");
+        Text channel = new Text("~/global ");
+        Text bash = new Text("$");
+
+        nick.setFill(Color.GOLDENROD);
+        at.setFill(Color.LIGHTGRAY);
+        ip.setFill(Color.CYAN);
+        dots.setFill(Color.LIGHTGRAY);
+        channel.setFill(Color.CADETBLUE);
+        bash.setFill(Color.LIGHTGRAY);
+
+        nick.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+        at.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+        ip.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+        dots.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+        channel.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+        bash.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+
+        bashrc.getChildren().addAll(nick,at,ip,dots,channel,bash);
+    }
+
+    public void openConnectWindow() {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/connect.fxml"));
+        loader.setController(new ConnectController(stage));
+        Scene scene = null;
+        try {
+            scene = new Scene((Parent) loader.load(), 400, 600);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(scene);
+        stage.show();
     }
 }

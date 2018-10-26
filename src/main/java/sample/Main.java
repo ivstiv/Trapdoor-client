@@ -8,8 +8,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import sample.communication.ConnectionHandler;
 import sample.controllers.MainController;
+
+import java.io.IOException;
 
 public class Main extends Application {
 
@@ -18,7 +19,7 @@ public class Main extends Application {
         final MainController mainController = new MainController(primaryStage);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/fxml/mainScreen.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/fxml/main.fxml"));
         fxmlLoader.setController(mainController);
         Parent root = fxmlLoader.load();
         primaryStage.setResizable(true);
@@ -33,6 +34,11 @@ public class Main extends Application {
         });
         primaryStage.show();
     }
+
+
+
+
+
 
 
     public static void main(String[] args) {

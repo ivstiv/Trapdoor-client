@@ -1,0 +1,20 @@
+.background {
+	-fx-background-color: #323232;
+	-fx-border-color: white;
+}
+
+.button {
+    -fx-background-color: #191919;
+    -fx-cursor: hand;
+}
+.button:hover {
+    -fx-background-color: #101010;
+}
+.button:pressed {
+    -fx-background-color: black;
+}
+
+.field {
+    -fx-background-color: #191919;
+    -fx-text-fill: white;
+}
