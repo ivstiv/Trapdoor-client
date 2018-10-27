@@ -28,6 +28,7 @@ public class RichText {
             String[] tokens = text.split("(?="+SPECIAL_CHAR+"[a-z1-4])");
 
             for(String token : tokens) {
+                System.out.println(token);
                 // this changes activeStyles and returns a text without codes
                 String clearToken =  extractStyles(token);
                 if(!clearToken.isEmpty()) {
@@ -49,6 +50,8 @@ public class RichText {
         while(styleMatch.find()) {
             int pos = styleMatch.start();
             Entry<String, String> style = getStyle(token.charAt(pos+1));
+            if(style.getKey().equalsIgnoreCase("RESET")) // if the key is reset empty the styles up to now
+                activeStyles.clear();
             activeStyles.put(style.getKey(), style.getValue());
             token = token.substring(pos+2);          // i had problem with delete() in a StringBuilder
             styleMatch = patternStyle.matcher(token);// thats why i am updating the matcher now in a String :/
@@ -70,19 +73,17 @@ public class RichText {
                 return ColorCode.STRIKETHROUGH.getEntry();
             default:
                 return ColorCode.BOLD.getEntry(); // this can't be reached because of the regex but just in case
+            // TODO: 28-Oct-18 I can add more numbers affecting the size of the text 
         }
     }
 
     private Text applyStyles(final String t) {
         Text token = new Text(t);
+        token.setFill(Color.WHITESMOKE);
         String family1 = (this.customFont.isEmpty()) ? token.getFont().getFamily() : this.customFont;
         double size1 = (this.customSize == -1) ? token.getFont().getSize() : this.customSize;
         token.setFont(Font.font(family1, size1));
-
-        if(activeStyles.containsKey("RESET")) {
-            activeStyles.clear();
-            token.setFill(Color.WHITESMOKE);
-        }
+        
         if(activeStyles.containsKey("FILL")) {
             token.setFill(Color.valueOf(activeStyles.get("FILL")));
         }

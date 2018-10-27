@@ -78,7 +78,7 @@
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </padding>
             </TextFlow>
-            <TextArea fx:id="chatInput" prefHeight="200.0" prefWidth="200.0" styleClass="chat-input" wrapText="true">
+            <TextArea fx:id="chatInput" prefHeight="200.0" prefWidth="200.0" promptText="Send a message.." styleClass="chat-input" wrapText="true">
                <font>
                   <Font name="Consolas" size="19.0" />
                </font></TextArea>
