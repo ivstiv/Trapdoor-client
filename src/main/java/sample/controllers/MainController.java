@@ -55,8 +55,6 @@ public class MainController implements Initializable {
         //Test dummy functions
         setBashrc();
         joinMsg("SKDown");
-        //addMsg("1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
-        //addMsg("2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
 
         chatInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -181,40 +179,11 @@ public class MainController implements Initializable {
     }
 
     public void setBashrc() {
-
-        //RichText bsh = new RichText("&aSKDown@&b164.132.56.199:~/global $");
-        //RichText bsh = new RichText("&a&1Red&2&b&aBl&bue&rRESET&aRED");
         RichText bsh = new RichText("&1&gSKDown&l@&d164.132.56.199&l:&c~/global &l$");
         bsh.setCustomSize(20);
         bsh.setCustomFont("Consolas");
         for(Text t : bsh.translateCodes())
             bashrc.getChildren().add(t);
-
-/*
-
-        Text nick = new Text("SKDown");
-        Text at = new Text("@");
-        Text ip = new Text("164.132.56.199");
-        Text dots = new Text(":");
-        Text channel = new Text("~/global ");
-        Text bash = new Text("$");
-
-        nick.setFill(Color.GOLDENROD);
-        at.setFill(Color.LIGHTGRAY);
-        ip.setFill(Color.CYAN);
-        dots.setFill(Color.LIGHTGRAY);
-        channel.setFill(Color.CADETBLUE);
-        bash.setFill(Color.LIGHTGRAY);
-
-        nick.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        at.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        ip.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        dots.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        channel.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        bash.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-
-        bashrc.getChildren().addAll(nick,at,ip,dots,channel,bash);
-*/
     }
 
     public void openConnectWindow() {
