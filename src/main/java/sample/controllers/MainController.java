@@ -1,7 +1,6 @@
 package sample.controllers;
 
 import javafx.application.Platform;
-import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,21 +10,17 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.communication.ConnectionHandler;
+import sample.misc.RichText;
 
 import java.io.IOException;
 import java.net.URL;
@@ -150,6 +145,16 @@ public class MainController implements Initializable {
 
     public void setBashrc() {
 
+        //RichText bsh = new RichText("&aSKDown@&b164.132.56.199:~/global $");
+        //RichText bsh = new RichText("&a&1Red&2&b&aBl&bue&rRESET&aRED");
+    /*    RichText bsh = new RichText("&1&gSKDown&l@&d164.132.56.199&l:&c~/global &l$");
+        bsh.setCustomSize(20);
+        bsh.setCustomFont("Consolas");
+        for(Text t : bsh.translateCodes())
+            bashrc.getChildren().add(t);*/
+
+
+
         Text nick = new Text("SKDown");
         Text at = new Text("@");
         Text ip = new Text("164.132.56.199");
@@ -172,6 +177,7 @@ public class MainController implements Initializable {
         bash.setFont(Font.font("Consolas",FontWeight.BOLD,20));
 
         bashrc.getChildren().addAll(nick,at,ip,dots,channel,bash);
+
     }
 
     public void openConnectWindow() {
