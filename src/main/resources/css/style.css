@@ -14,12 +14,12 @@
 /* Chat window */
 .chat-window {
     -fx-background-color: transparent;
-    -fx-padding: 10;
+    -fx-padding: 0 0 0 10;
 }
 .chat-window .list-cell {
     -fx-background-color: transparent;
-    -fx-label-padding: 0 0 20 0;
-}/*
+}
+/*
 .chat-window .list-cell > .text-flow{
     -fx-max-width: 20px;
     -fx-wrap-text: true;

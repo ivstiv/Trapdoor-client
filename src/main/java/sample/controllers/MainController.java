@@ -6,11 +6,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -24,7 +29,11 @@ import sample.misc.RichText;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class MainController implements Initializable {
 
@@ -34,6 +43,7 @@ public class MainController implements Initializable {
     @FXML private Button closeBtn, minimiseBtn, settingsBtn;
     @FXML private HBox topBar;
     @FXML private TextFlow bashrc;
+    @FXML private TextArea chatInput;
 
 
     public MainController(Stage stage) {
@@ -45,10 +55,28 @@ public class MainController implements Initializable {
         //Test dummy functions
         setBashrc();
         joinMsg("SKDown");
-        addMsg("1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
-        addMsg("2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
-        addMsg("3Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
+        //addMsg("1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
+        //addMsg("2Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas turpis nulla, molestie eget posuere in, semper vitae orci. In vitae sapien lectus. Sed varius arcu est. Nulla consequat neque vel tempor vehicula. Ut pellentesque quam id urna finibus sollicitudin vel quis magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris semper pulvinar eros. Vestibulum vitae ex tellus. Cras sollicitudin nunc ut mauris finibus tincidunt. Integer fermentum orci ex, in semper nisi pretium at. Vestibulum et aliquet justo, vel viverra magna. Nam sed maximus elit. Integer sollicitudin erat purus, ut fringilla lectus ultricies non. Praesent fringilla non sapien sit amet volutpat. Fusce ornare facilisis sagittis.");
 
+        chatInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    if (event.isShiftDown()) { // if the shift is down add new line. Do not send!
+                        chatInput.appendText("\n");
+                        return;
+                    }
+
+                    String text = chatInput.getText().trim();
+                    if (!text.isEmpty()) {
+                        event.consume();
+                        addMsg(text);
+                        chatInput.setText("");
+                        chat.scrollTo(chat.getItems().size());
+                    }
+                }
+            }
+        });
         closeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -93,13 +121,18 @@ public class MainController implements Initializable {
     }
 
     public void addMsg(String message) {
+        Date date = new Date(System.currentTimeMillis());
+        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        String dateFormatted = formatter.format(date);
+
         Text line1 = new Text("\u2554\u2550[");
-        Text time = new Text("01:00:26");
+        Text time = new Text(dateFormatted);
         Text line2 = new Text("]\u2550[");
         Text nick = new Text("SKDown");
         Text line3 = new Text("]\n");
         Text line4 = new Text("\u255a>");
-        Text msg = new Text(message);
+        RichText msg = new RichText("&x"+message);
 
         line1.setFill(Color.AQUA);
         line2.setFill(Color.AQUA);
@@ -107,7 +140,6 @@ public class MainController implements Initializable {
         line4.setFill(Color.AQUA);
         time.setFill(Color.GRAY);
         nick.setFill(Color.WHITESMOKE);
-        msg.setFill(Color.WHITESMOKE);
 
         line1.setFont(Font.font("",FontWeight.BOLD,20));
         line2.setFont(Font.font("",FontWeight.BOLD,20));
@@ -115,11 +147,16 @@ public class MainController implements Initializable {
         line4.setFont(Font.font("Consolas",FontWeight.BOLD,25.1));
         time.setFont(Font.font("Consolas",FontWeight.BOLD,20));
         nick.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        msg.setFont(Font.font("Consolas",18));
+        msg.setCustomSize(19);
+        msg.setCustomFont("Consolas");
 
         TextFlow flow = new TextFlow();
-        flow.setMaxWidth(1000);
-        flow.getChildren().addAll(line1,time,line2,nick,line3,line4,msg);
+        // https://bugs.openjdk.java.net/browse/JDK-8089029
+        // TODO: 28-Oct-18 be aware of this bug
+        flow.setMaxWidth(1230);
+        flow.getChildren().addAll(line1,time,line2,nick,line3,line4);
+        for(Text t : msg.translateCodes())
+            flow.getChildren().add(t);
         chat.getItems().add(flow);
     }
 
@@ -147,13 +184,13 @@ public class MainController implements Initializable {
 
         //RichText bsh = new RichText("&aSKDown@&b164.132.56.199:~/global $");
         //RichText bsh = new RichText("&a&1Red&2&b&aBl&bue&rRESET&aRED");
-    /*    RichText bsh = new RichText("&1&gSKDown&l@&d164.132.56.199&l:&c~/global &l$");
+        RichText bsh = new RichText("&1&gSKDown&l@&d164.132.56.199&l:&c~/global &l$");
         bsh.setCustomSize(20);
         bsh.setCustomFont("Consolas");
         for(Text t : bsh.translateCodes())
-            bashrc.getChildren().add(t);*/
+            bashrc.getChildren().add(t);
 
-
+/*
 
         Text nick = new Text("SKDown");
         Text at = new Text("@");
@@ -177,7 +214,7 @@ public class MainController implements Initializable {
         bash.setFont(Font.font("Consolas",FontWeight.BOLD,20));
 
         bashrc.getChildren().addAll(nick,at,ip,dots,channel,bash);
-
+*/
     }
 
     public void openConnectWindow() {

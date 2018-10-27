@@ -66,7 +66,7 @@ public class RichText {
             case 'g':
                 return new Entry<>("FILL","GOLDENROD");
             case 'h':
-                return new Entry<>("FILL","#0000ff");
+                return new Entry<>("FILL","GRAY");
             case 'i':
                 return new Entry<>("FILL","#0000ff");
             case 'j':
@@ -96,7 +96,7 @@ public class RichText {
             case 'w':
                 return new Entry<>("FILL","#0000ff");
             case 'x':
-                return new Entry<>("FILL","#0000ff");
+                return new Entry<>("FILL","WHITESMOKE");
             case 'y':
                 return new Entry<>("FILL","#0000ff");
             case 'z':
@@ -108,8 +108,13 @@ public class RichText {
 
     private Text applyStyles(final String t) {
         Text token = new Text(t);
+        String family1 = (this.customFont.isEmpty()) ? token.getFont().getFamily() : this.customFont;
+        double size1 = (this.customSize == -1) ? token.getFont().getSize() : this.customSize;
+        token.setFont(Font.font(family1, size1));
+
         if(activeStyles.containsKey("RESET")) {
             activeStyles.clear();
+            token.setFill(Color.WHITESMOKE);
         }
         if(activeStyles.containsKey("FILL")) {
             token.setFill(Color.valueOf(activeStyles.get("FILL")));
