@@ -11,8 +11,12 @@ public class RSA {
     private KeyPair keys;
     private PublicKey remotePublicKey;
 
-    public RSA() throws Exception {
-        keys = generateKeyPair();
+    public RSA(){
+        try {
+            keys = generateKeyPair();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private KeyPair generateKeyPair() throws Exception {
