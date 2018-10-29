@@ -1,4 +1,4 @@
-package sample.misc;
+package misc;
 
 public enum ColorCode {
     BOLD("BOLD",""),

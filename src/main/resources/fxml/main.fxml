@@ -71,7 +71,7 @@
       </HBox>
    </top>
    <bottom>
-      <VBox prefHeight="159.0" prefWidth="1280.0" styleClass="input-wrapper" BorderPane.alignment="CENTER">
+      <VBox fx:id="test" prefHeight="159.0" prefWidth="1280.0" styleClass="input-wrapper" BorderPane.alignment="CENTER">
          <children>
             <TextFlow fx:id="bashrc" prefHeight="101.0" prefWidth="1280.0">
                <padding>

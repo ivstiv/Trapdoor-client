@@ -1,4 +1,4 @@
-package sample.misc;
+package misc;
 
 import java.util.Map;
 

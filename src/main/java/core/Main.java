@@ -1,4 +1,4 @@
-package sample;
+package core;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -8,9 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import sample.controllers.MainController;
-
-import java.io.IOException;
+import controllers.MainController;
 
 public class Main extends Application {
 

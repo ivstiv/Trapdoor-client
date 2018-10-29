@@ -1,4 +1,4 @@
-package sample.misc;
+package misc;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

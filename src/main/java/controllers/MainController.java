@@ -1,4 +1,4 @@
-package sample.controllers;
+package controllers;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -6,14 +6,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -25,7 +24,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sample.misc.RichText;
+import misc.RichText;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,7 +44,6 @@ public class MainController implements Initializable {
     @FXML private TextFlow bashrc;
     @FXML private TextArea chatInput;
 
-
     public MainController(Stage stage) {
         this.stage = stage;
     }
@@ -55,7 +53,15 @@ public class MainController implements Initializable {
         //Test dummy functions
         setBashrc();
         joinMsg("SKDown");
-
+        Tooltip tp = new Tooltip("This shows your username, server ip and the channel you are into.");
+        tp.setFont(Font.font("Consolas",FontWeight.BOLD,15));
+        Tooltip.install(bashrc, tp);
+        bashrc.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.getScene().setCursor(Cursor.HAND);
+            }
+        });
         chatInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {

@@ -1,4 +1,4 @@
-package sample.controllers;
+package controllers;
 
 class Offset {
     double x, y;
