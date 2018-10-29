@@ -1,5 +1,6 @@
 package core;
 
+import communication.security.AES;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +11,24 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import controllers.MainController;
 
+import java.util.Random;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        String data = "secret msg";
+        String encrypted;
+        AES a1 = new AES();
+        AES a2 = new AES(a1.getRandomString());
+        encrypted = a1.encrypt(data);
+
+        System.out.println("Data:"+data);
+        System.out.println("Encrypted:"+encrypted);
+        System.out.println("Decrypted:"+a2.decrypt(encrypted));
+
+
         final MainController mainController = new MainController(primaryStage);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
