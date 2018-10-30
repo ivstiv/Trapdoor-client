@@ -1,6 +1,8 @@
 package core;
 
 import communication.security.AES;
+import data.JsonSerializable;
+import data.SavedConnection;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        SavedConnection con = new SavedConnection("164.132.56.199",1234,"Ivan","");
+        String ser = con.toString();
+        System.out.println(ser);
+        SavedConnection con2 = SavedConnection.buildFromJson(ser);
+        System.out.println(con2.toString());
+
+
         final MainController mainController = new MainController(primaryStage);
 
         FXMLLoader fxmlLoader = new FXMLLoader();

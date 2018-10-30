@@ -18,3 +18,29 @@
     -fx-background-color: #191919;
     -fx-text-fill: white;
 }
+
+/* Radio Button skin */
+.radio-button .radio {
+    -fx-background-color: white;
+    -fx-border-radius: 15px;
+    -fx-padding: 1px;
+}
+.radio-button:hover {
+    -fx-cursor: hand;
+}
+.radio-button .radio:selected {
+    -fx-background-color: white;
+}
+.radio-button -radio:armed {
+    -fx-background-color: white;
+}
+.radio-button -radio:determinate {
+    -fx-background-color: white;
+}
+.radio-button -radio:indeterminate {
+    -fx-background-color: white;
+}
+.radio-button .dot {
+    -fx-background-radius: 15px;
+    -fx-padding: 8px;
+}

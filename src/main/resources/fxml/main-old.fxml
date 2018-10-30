@@ -15,18 +15,14 @@
    <top>
       <HBox fx:id="topBar" prefHeight="61.0" prefWidth="1280.0" styleClass="top-bar" BorderPane.alignment="CENTER">
          <children>
-            <MenuButton fx:id="connectBtn" mnemonicParsing="false" styleClass="button-custom" text="CONNECT" textFill="WHITE">
-              <items>
-                <MenuItem mnemonicParsing="false" text="New connection" />
-                <MenuItem mnemonicParsing="false" text="164.132.56.199" />
-              </items>
+            <Button mnemonicParsing="false" onMouseClicked="#openConnectWindow" prefHeight="42.0" prefWidth="164.0" styleClass="button-custom" text="CONNECT" textFill="WHITE">
                <font>
                   <Font name="Consolas Bold" size="22.0" />
                </font>
                <HBox.margin>
                   <Insets left="10.0" top="9.0" />
                </HBox.margin>
-            </MenuButton>
+            </Button>
             <TextFlow prefHeight="200.0" prefWidth="200.0" />
             <Pane prefHeight="61.0" prefWidth="160.0" HBox.hgrow="ALWAYS" />
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
@@ -77,7 +73,7 @@
    <bottom>
       <VBox fx:id="test" prefHeight="159.0" prefWidth="1280.0" styleClass="input-wrapper" BorderPane.alignment="CENTER">
          <children>
-            <TextFlow fx:id="bashrc" prefHeight="101.0" prefWidth="1280.0" styleClass="bashrc">
+            <TextFlow fx:id="bashrc" prefHeight="101.0" prefWidth="1280.0">
                <padding>
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </padding>

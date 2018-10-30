@@ -8,18 +8,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" styleClass="background" stylesheets="@../css/connect.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" styleClass="background" stylesheets="@../css/connect.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="158.0" minHeight="6.0" prefHeight="100.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="249.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="349.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="304.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="237.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="174.0" minHeight="10.0" prefHeight="169.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="158.0" minHeight="6.0" prefHeight="70.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="249.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="349.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="304.0" minHeight="10.0" prefHeight="98.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="237.0" minHeight="10.0" prefHeight="81.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="174.0" minHeight="0.0" prefHeight="22.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="174.0" minHeight="10.0" prefHeight="149.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Label text="CONNECT TO SERVER" textFill="WHITE" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -94,15 +95,29 @@
             <Insets bottom="30.0" left="20.0" />
          </GridPane.margin>
       </Label>
-      <Button mnemonicParsing="false" text="CONNECT" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+      <Button mnemonicParsing="false" prefWidth="160.0" text="CONNECT" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="6">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
       </Button>
-      <Button fx:id="cancelBtn" mnemonicParsing="false" text="CANCEL" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+      <Button fx:id="cancelBtn" mnemonicParsing="false" prefWidth="160.0" text="CANCEL" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
       </Button>
+      <RadioButton contentDisplay="CENTER" mnemonicParsing="false" text="Save connection" textFill="WHITE" GridPane.columnSpan="2" GridPane.rowIndex="5">
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" top="40.0" />
+         </GridPane.margin>
+      </RadioButton>
    </children>
 </GridPane>

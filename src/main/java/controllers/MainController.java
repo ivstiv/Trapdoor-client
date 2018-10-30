@@ -9,10 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -37,9 +34,9 @@ import java.util.TimeZone;
 public class MainController implements Initializable {
 
     private Stage stage;
-///    @FXML private VBox userList;
     @FXML private ListView<TextFlow> chat;
     @FXML private Button closeBtn, minimiseBtn, settingsBtn;
+    @FXML private MenuButton connectBtn;
     @FXML private HBox topBar;
     @FXML private TextFlow bashrc;
     @FXML private TextArea chatInput;
@@ -50,18 +47,19 @@ public class MainController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
+
+        connectBtn.getItems().add(new MenuItem("Test"));
+
+        connectBtn.setOnMouseClicked(event -> {
+            openConnectWindow();
+        });
+
         //Test dummy functions
         setBashrc();
         joinMsg("SKDown");
         Tooltip tp = new Tooltip("This shows your username, server ip and the channel you are into.");
         tp.setFont(Font.font("Consolas",FontWeight.BOLD,15));
         Tooltip.install(bashrc, tp);
-        bashrc.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                stage.getScene().setCursor(Cursor.HAND);
-            }
-        });
         chatInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -195,7 +193,7 @@ public class MainController implements Initializable {
     public void openConnectWindow() {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/connect.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/connect-old.fxml"));
         loader.setController(new ConnectController(stage));
         Scene scene = null;
         try {
