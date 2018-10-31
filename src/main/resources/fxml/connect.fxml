@@ -39,7 +39,7 @@
             <Insets bottom="30.0" left="20.0" />
          </GridPane.margin>
       </Label>
-      <TextField prefHeight="50.0" prefWidth="346.0" styleClass="field" text="User97262" GridPane.columnSpan="2" GridPane.rowIndex="1">
+      <TextField fx:id="username" prefHeight="50.0" prefWidth="346.0" styleClass="field" text="User97262" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="20.0" right="20.0" top="50.0" />
          </GridPane.margin>
@@ -47,7 +47,7 @@
             <Font name="Consolas Bold" size="25.0" />
          </font>
       </TextField>
-      <PasswordField styleClass="field" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <PasswordField fx:id="password" styleClass="field" GridPane.columnSpan="2" GridPane.rowIndex="2">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
@@ -71,7 +71,7 @@
             <Insets bottom="30.0" left="20.0" />
          </GridPane.margin>
       </Label>
-      <TextField prefHeight="50.0" prefWidth="346.0" styleClass="field" GridPane.columnSpan="2" GridPane.rowIndex="3">
+      <TextField fx:id="ipField" prefHeight="50.0" prefWidth="346.0" styleClass="field" GridPane.columnSpan="2" GridPane.rowIndex="3">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
@@ -79,7 +79,7 @@
             <Insets left="20.0" right="20.0" top="50.0" />
          </GridPane.margin>
       </TextField>
-      <TextField prefHeight="50.0" prefWidth="346.0" styleClass="field" text="38000" GridPane.columnSpan="2" GridPane.rowIndex="4">
+      <TextField fx:id="port" prefHeight="50.0" prefWidth="346.0" styleClass="field" text="38000" GridPane.columnSpan="2" GridPane.rowIndex="4">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>

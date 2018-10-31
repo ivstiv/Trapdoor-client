@@ -1,38 +1,100 @@
 package controllers;
 
+import core.ServiceLocator;
+import data.DataLoader;
+import data.SavedConnection;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 public class ConnectController implements Initializable {
 
 
     @FXML private Button cancelBtn, saveBtn;
     @FXML private GridPane pane;
+    @FXML private TextField username, password, ipField, port;
     private Stage stage;
     private String ip;
+    private MainController connectMain; // refference to the dropdown to edit the list of items
 
-    public ConnectController(Stage stage, String ip) {
+    public ConnectController(Stage stage, String ip, MainController connectMain) {
         this.stage = stage;
         this.ip = ip;
+        this.connectMain = connectMain;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        DataLoader dl = ServiceLocator.getService(DataLoader.class);
+
         cancelBtn.setOnAction(event -> stage.close());
 
-        if(this.ip.equals("New connection")) {
+        if(!ip.equals("New connection")) {
             saveBtn.setText("DELETE FROM LIST");
+            SavedConnection sc = dl.getSavedConnections().get(ip);
+            username.setText(sc.getUsername());
+            password.setText(sc.getPassword());
+            ipField.setText(sc.getIp());
+            port.setText(sc.getPort()+"");
         }
+
+        saveBtn.setOnMouseClicked(event -> {
+            if(ip.equals("New connection")) {
+                SavedConnection sc = new SavedConnection(
+                        ipField.getText(),
+                        Integer.parseInt(port.getText()),
+                        username.getText(),
+                        password.getText()
+                );
+                dl.addSavedConnection(sc);
+                MenuItem i = new MenuItem(sc.getIp());
+                i.setOnAction(event2 -> {
+                    MenuItem click = (MenuItem) event2.getSource();
+                    connectMain.openConnectWindow(click.getText());
+                });
+                // if the button has already this entry dont add a new one
+                class Wrapper {
+                    boolean exist;
+                }
+                Wrapper wrapper = new Wrapper(); // the exist should be effectively final
+                connectMain.connectBtn.getItems().forEach((menuItem) -> {
+                    if(menuItem.getText().equals(sc.getIp()))
+                        wrapper.exist= true;
+                });
+                if(!wrapper.exist)
+                    connectMain.connectBtn.getItems().add(i);
+            }else{
+                SavedConnection sc2 = new SavedConnection(
+                        ipField.getText(),
+                        Integer.parseInt(port.getText()),
+                        username.getText(),
+                        password.getText()
+                );
+                dl.removeSavedConnection(sc2);
+                connectMain.connectBtn.getItems().forEach((menuItem) -> {
+                    if(menuItem.getText().equals(sc2.getIp()))
+                        Platform.runLater(() ->
+                                connectMain.connectBtn.getItems().remove(menuItem)
+                        );
+
+                });
+                stage.close();
+            }
+        });
 
 
         // Make the window draggable

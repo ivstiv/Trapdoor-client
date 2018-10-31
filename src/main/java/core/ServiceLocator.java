@@ -1,4 +1,4 @@
-package service_locator;
+package core;
 
 import java.util.HashMap;
 import java.util.Map;

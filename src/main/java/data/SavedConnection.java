@@ -19,4 +19,20 @@ public class SavedConnection implements JsonSerializable<SavedConnection>{
     public String toString() {
         return toJsonString(this);
     }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public int getPort() {
+        return port;
+    }
 }

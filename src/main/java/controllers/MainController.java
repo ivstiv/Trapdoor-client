@@ -1,5 +1,8 @@
 package controllers;
 
+import core.ServiceLocator;
+import data.DataLoader;
+import data.SavedConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import misc.BoundMenuButton;
 import misc.RichText;
 
 import java.io.IOException;
@@ -36,7 +40,7 @@ public class MainController implements Initializable {
     private Stage stage;
     @FXML private ListView<TextFlow> chat;
     @FXML private Button closeBtn, minimiseBtn, settingsBtn;
-    @FXML private MenuButton connectBtn;
+    @FXML public MenuButton connectBtn;
     @FXML private HBox topBar;
     @FXML private TextFlow bashrc;
     @FXML private TextArea chatInput;
@@ -47,19 +51,22 @@ public class MainController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
-
-        // test dummy entries
         MenuItem item = new MenuItem("New connection");
         item.setOnAction(event -> {
             MenuItem i = (MenuItem) event.getSource();
             openConnectWindow(i.getText());
         });
-        MenuItem item2 = new MenuItem("164");
-        item2.setOnAction(event -> {
-            MenuItem i = (MenuItem) event.getSource();
-            openConnectWindow(i.getText());
-        });
-        connectBtn.getItems().addAll(item, item2);
+        connectBtn.getItems().add(item);
+
+        DataLoader dl = ServiceLocator.getService(DataLoader.class);
+        for(SavedConnection e : dl.getSavedConnections().values()) {
+            MenuItem i = new MenuItem(e.getIp());
+            i.setOnAction(event -> {
+                MenuItem click = (MenuItem) event.getSource();
+                openConnectWindow(click.getText());
+            });
+            connectBtn.getItems().add(i);
+        }
 
         //Test dummy functions
         setBashrc();
@@ -202,7 +209,7 @@ public class MainController implements Initializable {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/connect.fxml"));
-        loader.setController(new ConnectController(stage, ip));
+        loader.setController(new ConnectController(stage, ip, this));
         Scene scene = null;
         try {
             scene = new Scene((Parent) loader.load(), 400, 600);

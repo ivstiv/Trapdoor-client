@@ -28,7 +28,7 @@ public class RichText {
             String[] tokens = text.split("(?="+SPECIAL_CHAR+"[a-z1-4])");
 
             for(String token : tokens) {
-                System.out.println(token);
+                //System.out.println(token);
                 // this changes activeStyles and returns a text without codes
                 String clearToken =  extractStyles(token);
                 if(!clearToken.isEmpty()) {

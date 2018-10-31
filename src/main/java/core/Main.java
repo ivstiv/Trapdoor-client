@@ -1,8 +1,7 @@
 package core;
 
-import communication.security.AES;
+import communication.ServerConnection;
 import data.DataLoader;
-import data.JsonSerializable;
 import data.SavedConnection;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -13,18 +12,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import controllers.MainController;
-import service_locator.ServiceLocator;
-
-import java.util.Random;
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        DataLoader dl = ServiceLocator.getService(DataLoader.class);
-        dl.test();
-
-
         final MainController mainController = new MainController(primaryStage);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
