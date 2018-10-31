@@ -48,11 +48,18 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        connectBtn.getItems().add(new MenuItem("Test"));
-
-        connectBtn.setOnMouseClicked(event -> {
-            openConnectWindow();
+        // test dummy entries
+        MenuItem item = new MenuItem("New connection");
+        item.setOnAction(event -> {
+            MenuItem i = (MenuItem) event.getSource();
+            openConnectWindow(i.getText());
         });
+        MenuItem item2 = new MenuItem("164");
+        item2.setOnAction(event -> {
+            MenuItem i = (MenuItem) event.getSource();
+            openConnectWindow(i.getText());
+        });
+        connectBtn.getItems().addAll(item, item2);
 
         //Test dummy functions
         setBashrc();
@@ -190,11 +197,12 @@ public class MainController implements Initializable {
             bashrc.getChildren().add(t);
     }
 
-    public void openConnectWindow() {
+    // based on the argument of IP it will change the button from save to delete
+    public void openConnectWindow(String ip) {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/connect-old.fxml"));
-        loader.setController(new ConnectController(stage));
+        loader.setLocation(getClass().getResource("/fxml/connect.fxml"));
+        loader.setController(new ConnectController(stage, ip));
         Scene scene = null;
         try {
             scene = new Scene((Parent) loader.load(), 400, 600);

@@ -1,6 +1,7 @@
 package core;
 
 import communication.security.AES;
+import data.DataLoader;
 import data.JsonSerializable;
 import data.SavedConnection;
 import javafx.application.Application;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import controllers.MainController;
+import service_locator.ServiceLocator;
 
 import java.util.Random;
 
@@ -19,11 +21,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        SavedConnection con = new SavedConnection("164.132.56.199",1234,"Ivan","");
-        String ser = con.toString();
-        System.out.println(ser);
-        SavedConnection con2 = SavedConnection.buildFromJson(ser);
-        System.out.println(con2.toString());
+        DataLoader dl = ServiceLocator.getService(DataLoader.class);
+        dl.test();
 
 
         final MainController mainController = new MainController(primaryStage);

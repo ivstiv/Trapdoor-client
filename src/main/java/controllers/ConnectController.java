@@ -16,22 +16,24 @@ import java.util.ResourceBundle;
 public class ConnectController implements Initializable {
 
 
-    @FXML private Button cancelBtn;
+    @FXML private Button cancelBtn, saveBtn;
     @FXML private GridPane pane;
     private Stage stage;
+    private String ip;
 
-    public ConnectController(Stage stage) {
+    public ConnectController(Stage stage, String ip) {
         this.stage = stage;
+        this.ip = ip;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        cancelBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                stage.close();
-            }
-        });
+        cancelBtn.setOnAction(event -> stage.close());
+
+        if(this.ip.equals("New connection")) {
+            saveBtn.setText("DELETE FROM LIST");
+        }
+
 
         // Make the window draggable
         Offset offset = new Offset();
