@@ -2,12 +2,6 @@ package data;
 
 
 import com.google.gson.*;
-import com.sun.javafx.collections.ObservableMapWrapper;
-import javafx.beans.InvalidationListener;
-import javafx.collections.MapChangeListener;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import misc.Entry;
 
 import java.io.*;
 import java.util.*;
@@ -39,7 +33,7 @@ public final class DataLoader {
     }
 
     private void updateSavedConnections() {
-        File connectionsFile = new File("connections.json");
+        File connectionsFile = new File(System.getProperty("user.home")+File.separator+"connections.json");
         if(!connectionsFile.exists()) {
             try {
                 connectionsFile.createNewFile();
@@ -67,7 +61,7 @@ public final class DataLoader {
     }
 
     private Map<String, SavedConnection> loadSavedConnections() {
-        File connectionsFile = new File("connections.json");
+        File connectionsFile = new File(System.getProperty("user.home")+File.separator+"connections.json");
         if(connectionsFile.exists()) {
             try {
                 FileReader fr = new FileReader(connectionsFile);

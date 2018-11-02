@@ -17,6 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         final MainController mainController = new MainController(primaryStage);
 
         FXMLLoader fxmlLoader = new FXMLLoader();

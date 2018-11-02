@@ -44,6 +44,10 @@ public abstract class AbstractConnection {
         this.PASSWORD = password;
     }
 
+    public void test() {
+        System.out.println("TEST"+getIP());
+    }
+
     public void connect() {
         try {
             socket = new Socket(this.IP, this.PORT);
