@@ -10,7 +10,7 @@ public enum ColorCode {
     c("FILL","CADETBLUE"),
     d("FILL","CYAN"),
     e("",""),
-    f("",""),
+    f("FILL","RED"),
     g("FILL","GOLDENROD"),
     h("FILL","GRAY"),
     i("",""),

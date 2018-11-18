@@ -1,5 +1,6 @@
 package controllers;
 
+import communication.ServerConnection;
 import core.ServiceLocator;
 import data.DataLoader;
 import data.SavedConnection;
@@ -24,7 +25,7 @@ import java.util.function.Predicate;
 public class ConnectController implements Initializable {
 
 
-    @FXML private Button cancelBtn, saveBtn;
+    @FXML private Button cancelBtn, saveBtn, connectBtn;
     @FXML private GridPane pane;
     @FXML private TextField username, password, ipField, port;
     private Stage stage;
@@ -90,35 +91,35 @@ public class ConnectController implements Initializable {
                         Platform.runLater(() ->
                                 connectMain.connectBtn.getItems().remove(menuItem)
                         );
-
                 });
                 stage.close();
             }
         });
 
+        connectBtn.setOnMouseClicked(event -> {
+            ServerConnection con = new ServerConnection(
+                    ipField.getText(),
+                    Integer.parseInt(port.getText()),
+                    username.getText(),
+                    password.getText());
+            con.connect();
+            ServiceLocator.initialiseService(con);
+        });
+
 
         // Make the window draggable
         Offset offset = new Offset();
-        pane.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        pane.setOnMousePressed(event -> {
                 offset.x = stage.getX() - event.getScreenX();
                 offset.y = stage.getY() - event.getScreenY();
             }
-        });
-        pane.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
+        );
+        pane.setOnMouseDragged(event -> {
                 stage.setX(event.getScreenX() + offset.x);
                 stage.setY(event.getScreenY() + offset.y);
                 stage.getScene().setCursor(Cursor.CLOSED_HAND);
             }
-        });
-        pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                stage.getScene().setCursor(Cursor.DEFAULT);
-            }
-        });
+        );
+        pane.setOnMouseReleased(event -> stage.getScene().setCursor(Cursor.DEFAULT));
     }
 }

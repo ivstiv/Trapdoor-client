@@ -44,10 +44,6 @@ public abstract class AbstractConnection {
         this.PASSWORD = password;
     }
 
-    public void test() {
-        System.out.println("TEST"+getIP());
-    }
-
     public void connect() {
         try {
             socket = new Socket(this.IP, this.PORT);
@@ -88,12 +84,14 @@ public abstract class AbstractConnection {
     // transmits a random string which is used for the generation of the AES key on both sides
     private void sendAESKey(RSA tunnel) throws Exception {
         // encrypt the AES key
+        System.out.println("AES Key:"+aes.getRandomString());
         String key = tunnel.encrypt(aes.getRandomString());
         // generate the signature of the message
         String signature = tunnel.sign(aes.getRandomString());
         out.println(key);
         out.flush();
         out.println(signature);
+        System.out.println("AES Signature:"+signature);
         out.flush();
     }
 
@@ -104,6 +102,7 @@ public abstract class AbstractConnection {
     }
 
     protected void send(String msg) {
+        System.out.println("OUTGOING:"+msg);
         out.println(aes.encrypt(msg));
         out.flush();
     }

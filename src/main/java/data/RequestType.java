@@ -13,5 +13,5 @@ public enum RequestType {
         100 - Transmission confirmation
         200 - Wrong server password
         201 - Username already taken
-        202 - Forbidden channel
+        202 - Forbidden username
  */

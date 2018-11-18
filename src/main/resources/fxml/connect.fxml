@@ -95,7 +95,7 @@
             <Insets bottom="30.0" left="20.0" />
          </GridPane.margin>
       </Label>
-      <Button mnemonicParsing="false" prefWidth="160.0" text="CONNECT" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+      <Button fx:id="connectBtn" mnemonicParsing="false" prefWidth="160.0" text="CONNECT" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="6">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>

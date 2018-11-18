@@ -24,7 +24,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import misc.BoundMenuButton;
 import misc.RichText;
 
 import java.io.IOException;
@@ -200,7 +199,12 @@ public class MainController implements Initializable {
         RichText bsh = new RichText("&1&gSKDown&l@&d164.132.56.199&l:&c~/global &l$");
         bsh.setCustomSize(20);
         bsh.setCustomFont("Consolas");
-        for(Text t : bsh.translateCodes())
+        setStatusBar(bsh);
+    }
+
+    public void setStatusBar(RichText msg) {
+        bashrc.getChildren().clear();
+        for(Text t : msg.translateCodes())
             bashrc.getChildren().add(t);
     }
 

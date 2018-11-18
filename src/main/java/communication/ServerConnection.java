@@ -1,7 +1,11 @@
 package communication;
 
+import controllers.MainController;
+import core.ServiceLocator;
 import data.Request;
 import data.RequestType;
+import misc.RichText;
+
 import java.io.IOException;
 import java.util.concurrent.ConcurrentNavigableMap;
 
@@ -14,6 +18,8 @@ public class ServerConnection extends AbstractConnection {
     @Override
     protected void handleIncomingRequests() {
         new Thread(() -> {
+
+            MainController controller = ServiceLocator.getService(MainController.class);
             String line;
             while(isConnected) {
                 try {
@@ -38,10 +44,15 @@ public class ServerConnection extends AbstractConnection {
 
                     case RESPONSE:
                         int code = r.getContent().get("code").getAsInt();
-                        if (code == 300) {
+                        if(code == 100) {
                             long timeStamp = r.getContent().get("timestamp").getAsLong();
                             sentRequests.remove(timeStamp);
                             break;
+                        }else if(code == 200) {
+                            RichText status = new RichText("&1&fWrong server password!");
+                            status.setCustomSize(20);
+                            status.setCustomFont("Consolas");
+                          controller.setStatusBar(status);
                         }
                         break;
                     case MSG:
