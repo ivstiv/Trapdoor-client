@@ -6,7 +6,7 @@ public enum ColorCode {
     UNDERLINED("UNDERLINED",""),
     STRIKETHROUGH("STRIKETHROUGH",""),
     a("FILL","AQUA"),
-    b("",""),
+    b("FILL","GREENYELLOW"),
     c("FILL","CADETBLUE"),
     d("FILL","CYAN"),
     e("",""),

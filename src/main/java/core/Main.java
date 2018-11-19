@@ -30,11 +30,6 @@ public class Main extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Trapdoor");
         primaryStage.setScene(new Scene(root, 1280, 720));
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent event) {
-                mainController.stop(); // sends a stop command to the connection handler
-            }
-        });
         primaryStage.show();
     }
 

@@ -2,6 +2,7 @@ package data;
 
 
 import com.google.gson.*;
+import exceptions.MalformedRequestException;
 
 
 /*
@@ -10,14 +11,14 @@ import com.google.gson.*;
  */
 public class Request {
 
-    private final        RequestType type;
+    private final RequestType type;
     private final        long timestamp;
     private final        String timezone; // set as string eg. GMT+2
     private final        JsonObject content;
     private final static Gson gson = new GsonBuilder().create();
 
     /* Json string to Request object */
-    public Request(String json) throws Exception {
+    public Request(String json) throws MalformedRequestException {
         if(isJSONValid(json)) {
             JsonObject req = gson.fromJson(json, JsonObject.class);
             try{
@@ -27,14 +28,14 @@ public class Request {
                 this.content = gson.fromJson(req.get("content"), JsonObject.class);
 
             }catch(NullPointerException e){
-                throw new Exception("Malformed request, invalid values!\n"+json);
+                throw new MalformedRequestException("Malformed request, invalid values!\n"+json);
             }
             if(!this.isValid()) {
-                throw new Exception("Malformed request, invalid values!");
+                throw new MalformedRequestException("Malformed request, invalid values!");
             }
 
         }else{
-            throw new Exception("Malformed request, invalid json syntax!");
+            throw new MalformedRequestException("Malformed request, invalid json syntax!");
         }
     }
 
@@ -50,13 +51,14 @@ public class Request {
 
         if(!this.isValid()) {
             try {
-                throw new Exception("Malformed request, invalid values!");
+                throw new MalformedRequestException("Malformed request, invalid values!");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    // TODO: 18-Nov-18 why is timestamp missing in the following check ? should be tested
     public boolean isValid() {
         if(type == null || timezone == null || content == null)
             return false;

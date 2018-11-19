@@ -38,7 +38,10 @@ public class RichText {
             }
             return newText;
         }else{
-            newText.add(new Text(text));
+            Text text2 = new Text(text);
+            text2.setFill(Color.WHITESMOKE);
+            text2.setFont(Font.font(customFont,customSize));
+            newText.add(text2);
             return newText;
         }
     }

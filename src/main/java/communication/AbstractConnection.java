@@ -1,8 +1,11 @@
 package communication;
 
+import com.google.gson.JsonObject;
 import communication.security.AES;
 import communication.security.RSA;
 import data.Request;
+import data.RequestType;
+import exceptions.MalformedRequestException;
 
 import java.io.*;
 import java.net.Socket;
@@ -21,7 +24,7 @@ public abstract class AbstractConnection {
     private final int PORT;
 
     // Communication objects
-    volatile boolean isConnected = false;
+    protected volatile boolean isConnected = false;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
@@ -32,6 +35,7 @@ public abstract class AbstractConnection {
 
     // Communication data structures
     BlockingQueue<Request> outgoingRequests = new LinkedBlockingDeque<>();
+    BlockingQueue<Request> incomingRequests = new LinkedBlockingDeque<>();
     // can be used for transmission control and tracking of sent and received requests
     // if the connection is dropped this acts as a backup storage for recently sent requests
     ConcurrentSkipListMap<Long, Request> sentRequests =
@@ -45,22 +49,31 @@ public abstract class AbstractConnection {
     }
 
     public void connect() {
-        try {
-            socket = new Socket(this.IP, this.PORT);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-            out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
-            isConnected = true;
+        new Thread(() -> {
+            try {
+                socket = new Socket(this.IP, this.PORT);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+                out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
+                isConnected = true;
 
-            // send the AES key in a RSA tunnel with signature
-            RSA tunnel = getRSAHandshake();
-            sendAESKey(tunnel);
+                // send the AES key in a RSA tunnel with signature
+                RSA tunnel = getRSAHandshake();
+                sendAESKey(tunnel);
 
-        }catch (IOException e) {
-            System.err.println("Exception in connect(): " + e.getMessage());
-            //wrapper.showWarning("The remote host refused the connection! Check your internet connection or the website for any details.");
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+            } catch (IOException e) {
+                System.err.println("Exception in connect(): " + e.getMessage());
+                return;
+                //wrapper.showWarning("The remote host refused the connection! Check your internet connection or the website for any details.");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+
+            inputStreamListener();
+            handleIncomingRequests();
+            handleOutgoingRequests();
+            transmissionControl();
+        }).start();
     }
 
     private RSA getRSAHandshake() throws IOException, NoSuchAlgorithmException {
@@ -84,17 +97,42 @@ public abstract class AbstractConnection {
     // transmits a random string which is used for the generation of the AES key on both sides
     private void sendAESKey(RSA tunnel) throws Exception {
         // encrypt the AES key
-        System.out.println("AES Key:"+aes.getRandomString());
         String key = tunnel.encrypt(aes.getRandomString());
         // generate the signature of the message
         String signature = tunnel.sign(aes.getRandomString());
         out.println(key);
         out.flush();
         out.println(signature);
-        System.out.println("AES Signature:"+signature);
         out.flush();
     }
 
+    private void inputStreamListener() {
+        new Thread(() -> {
+            System.out.println("Incoming requests listener running . . .");
+            while(isConnected) {
+                Request r = readRequest();
+                incomingRequests.add(r);
+            }
+            System.out.println("Incoming requests listener stopped . . .");
+        }).start();
+    }
+
+    private Request readRequest() throws MalformedRequestException {
+        String encrypted = null;
+        try {
+            encrypted = in.readLine();
+        } catch (IOException e) { // if the server drops the connection unexpectedly
+            close();
+        }
+        if (encrypted == null) { // the reader reads null because the end of the stream is reached
+            return new Request(RequestType.POISON_PILL, new JsonObject()); // dummy request
+        }
+        String decrypted = aes.decrypt(encrypted);
+        System.out.println("INCOMING:"+decrypted);
+        return new Request(decrypted);
+    }
+
+    // this is not used anymore but i will leave it for now
     protected String receive() throws IOException{
         String encrypted = in.readLine();   // halts until something appears in the socket stream
         if(encrypted == null) return null;  // will be "caught" on upper stage
@@ -109,6 +147,24 @@ public abstract class AbstractConnection {
 
     protected ConcurrentNavigableMap<Long, Request> getRequestsOlderThan(int seconds) {
         return sentRequests.headMap(System.currentTimeMillis() - seconds*1000);
+    }
+
+    public void sendRequest(Request r) {
+        if(r.isValid())
+            outgoingRequests.add(r);
+        else
+            System.out.println("[WARNING]Trying to send an invalid request!");
+    }
+
+    public void close(){
+        isConnected = false;
+        sendRequest(new Request(RequestType.POISON_PILL, new JsonObject()));
+        incomingRequests.add(new Request(RequestType.POISON_PILL, new JsonObject()));
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // getters

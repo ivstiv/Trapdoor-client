@@ -1,8 +1,11 @@
 package controllers;
 
+import com.google.gson.JsonObject;
 import communication.ServerConnection;
 import core.ServiceLocator;
 import data.DataLoader;
+import data.Request;
+import data.RequestType;
 import data.SavedConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import misc.RichText;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -97,6 +101,8 @@ public class ConnectController implements Initializable {
         });
 
         connectBtn.setOnMouseClicked(event -> {
+            connectMain.setStatusBar(new RichText("&1&bTrying to connect ("+ipField.getText()+"):"));
+            stage.close();
             ServerConnection con = new ServerConnection(
                     ipField.getText(),
                     Integer.parseInt(port.getText()),
@@ -104,6 +110,11 @@ public class ConnectController implements Initializable {
                     password.getText());
             con.connect();
             ServiceLocator.initialiseService(con);
+            JsonObject content = new JsonObject();
+            content.addProperty("username", username.getText());
+            content.addProperty("password", password.getText());
+            Request connect = new Request(RequestType.CONNECT, content);
+            con.sendRequest(connect);
         });
 
 

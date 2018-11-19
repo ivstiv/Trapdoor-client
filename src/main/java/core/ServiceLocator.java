@@ -33,6 +33,10 @@ public final class ServiceLocator {
         }
     }
 
+    public static boolean hasSerivce(Class<?> c) {
+        return services.containsKey(c);
+    }
+
     // overwrites previously initialised services of the same class
     public static void initialiseService(Object o) {
         Class<?> clazz = o.getClass();

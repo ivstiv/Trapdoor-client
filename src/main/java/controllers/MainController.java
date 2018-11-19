@@ -1,5 +1,7 @@
 package controllers;
 
+import com.sun.security.ntlm.Server;
+import communication.ServerConnection;
 import core.ServiceLocator;
 import data.DataLoader;
 import data.SavedConnection;
@@ -50,6 +52,7 @@ public class MainController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
+        print("Test test est");
         MenuItem item = new MenuItem("New connection");
         item.setOnAction(event -> {
             MenuItem i = (MenuItem) event.getSource();
@@ -95,6 +98,14 @@ public class MainController implements Initializable {
         closeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                try {
+                    if(ServiceLocator.hasSerivce(ServerConnection.class)) {
+                        ServerConnection con = ServiceLocator.getInitialisedService(ServerConnection.class);
+                        con.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 Platform.exit();
             }
         });
@@ -195,17 +206,45 @@ public class MainController implements Initializable {
         chat.getItems().add(flow);
     }
 
+    public void print(String msg) {
+        Platform.runLater(() -> {
+            RichText text = new RichText(msg);
+            text.setCustomSize(20);
+            text.setCustomFont("Consolas");
+            TextFlow flow = new TextFlow();
+            // https://bugs.openjdk.java.net/browse/JDK-8089029
+            // TODO: 28-Oct-18 be aware of this bug
+            flow.setMaxWidth(1230);
+            for(Text t : text.translateCodes())
+                flow.getChildren().add(t);
+            chat.getItems().add(flow);
+        });
+    }
+
     public void setBashrc() {
-        RichText bsh = new RichText("&1&gSKDown&l@&d164.132.56.199&l:&c~/global &l$");
+       // RichText bsh = new RichText("&1&gSKDown&l@&d164.132.56.199&l:&c~/global &l$");
+        RichText bsh = new RichText("&1&gUsername&l@&d196.168.0.1&l:&c~/example &l$");
         bsh.setCustomSize(20);
         bsh.setCustomFont("Consolas");
         setStatusBar(bsh);
     }
 
     public void setStatusBar(RichText msg) {
-        bashrc.getChildren().clear();
-        for(Text t : msg.translateCodes())
-            bashrc.getChildren().add(t);
+        if(Thread.currentThread().getName().contains("JavaFX")) {
+            msg.setCustomSize(20);
+            msg.setCustomFont("Consolas");
+            bashrc.getChildren().clear();
+            for(Text t : msg.translateCodes())
+                bashrc.getChildren().add(t);
+        }else{
+            Platform.runLater(() -> {
+                msg.setCustomSize(20);
+                msg.setCustomFont("Consolas");
+                bashrc.getChildren().clear();
+                for(Text t : msg.translateCodes())
+                    bashrc.getChildren().add(t);
+            });
+        }
     }
 
     // based on the argument of IP it will change the button from save to delete
