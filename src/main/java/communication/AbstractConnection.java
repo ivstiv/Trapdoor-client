@@ -3,6 +3,7 @@ package communication;
 import com.google.gson.JsonObject;
 import communication.security.AES;
 import communication.security.RSA;
+import core.ServiceLocator;
 import data.Request;
 import data.RequestType;
 import exceptions.MalformedRequestException;
@@ -160,6 +161,8 @@ public abstract class AbstractConnection {
         isConnected = false;
         sendRequest(new Request(RequestType.POISON_PILL, new JsonObject()));
         incomingRequests.add(new Request(RequestType.POISON_PILL, new JsonObject()));
+        sentRequests.put(-1L, new Request(RequestType.POISON_PILL, new JsonObject()));
+        ServiceLocator.removeService(ServerConnection.class);
         try {
             socket.close();
         } catch (IOException e) {

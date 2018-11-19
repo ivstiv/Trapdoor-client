@@ -101,7 +101,15 @@ public class ConnectController implements Initializable {
         });
 
         connectBtn.setOnMouseClicked(event -> {
-            connectMain.setStatusBar(new RichText("&1&bTrying to connect ("+ipField.getText()+"):"));
+            connectMain.clearChat();
+
+            // stop and remove previous connection
+            if(ServiceLocator.hasSerivce(ServerConnection.class)) {
+              ServiceLocator.getService(ServerConnection.class).close();
+              ServiceLocator.removeService(ServerConnection.class);
+            }
+
+            connectMain.setStatusBar(new RichText("&1&bTrying to connect ("+ipField.getText()+"). . ."));
             stage.close();
             ServerConnection con = new ServerConnection(
                     ipField.getText(),

@@ -1,9 +1,11 @@
 package controllers;
 
-import com.sun.security.ntlm.Server;
+import com.google.gson.JsonObject;
 import communication.ServerConnection;
 import core.ServiceLocator;
 import data.DataLoader;
+import data.Request;
+import data.RequestType;
 import data.SavedConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -52,7 +54,6 @@ public class MainController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        print("Test test est");
         MenuItem item = new MenuItem("New connection");
         item.setOnAction(event -> {
             MenuItem i = (MenuItem) event.getSource();
@@ -70,9 +71,12 @@ public class MainController implements Initializable {
             connectBtn.getItems().add(i);
         }
 
-        //Test dummy functions
-        setBashrc();
-        joinMsg("SKDown");
+        // set default status bar
+        RichText bsh = new RichText("&1&gUsername&l@&d196.168.0.1&l:&c~/example &l$");
+        bsh.setCustomSize(20);
+        bsh.setCustomFont("Consolas");
+        setStatusBar(bsh);
+
         Tooltip tp = new Tooltip("This shows your username, server ip and the channel you are into.");
         tp.setFont(Font.font("Consolas",FontWeight.BOLD,15));
         Tooltip.install(bashrc, tp);
@@ -88,9 +92,16 @@ public class MainController implements Initializable {
                     String text = chatInput.getText().trim();
                     if (!text.isEmpty()) {
                         event.consume();
-                        addMsg(text);
                         chatInput.setText("");
                         chat.scrollTo(chat.getItems().size());
+                        if(ServiceLocator.hasSerivce(ServerConnection.class)) {
+                            String username = ServiceLocator.getService(ServerConnection.class).getUSERNAME();
+                            addMsg(username, text);
+                            JsonObject payload = new JsonObject();
+                            payload.addProperty("message", text);
+                            Request r = new Request(RequestType.MSG, payload);
+                            ServiceLocator.getService(ServerConnection.class).sendRequest(r);
+                        }
                     }
                 }
             }
@@ -141,49 +152,50 @@ public class MainController implements Initializable {
             }
         });
     }
-
-    public void stop() {
-        // sending a message to the connection handler to stop the connection
+    public void clearChat() {
+        chat.getItems().clear();
     }
 
-    public void addMsg(String message) {
-        Date date = new Date(System.currentTimeMillis());
-        DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-        formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
-        String dateFormatted = formatter.format(date);
+    public void addMsg(String username, String message) {
+        Platform.runLater(() -> {
+            Date date = new Date(System.currentTimeMillis());
+            DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            String dateFormatted = formatter.format(date);
 
-        Text line1 = new Text("\u2554\u2550[");
-        Text time = new Text(dateFormatted);
-        Text line2 = new Text("]\u2550[");
-        Text nick = new Text("SKDown");
-        Text line3 = new Text("]\n");
-        Text line4 = new Text("\u255a>");
-        RichText msg = new RichText("&x"+message);
+            Text line1 = new Text("\u2554\u2550[");
+            Text time = new Text(dateFormatted);
+            Text line2 = new Text("]\u2550[");
+            Text nick = new Text(username);
+            Text line3 = new Text("]\n");
+            Text line4 = new Text("\u255a>");
+            RichText msg = new RichText("&x"+message);
 
-        line1.setFill(Color.AQUA);
-        line2.setFill(Color.AQUA);
-        line3.setFill(Color.AQUA);
-        line4.setFill(Color.AQUA);
-        time.setFill(Color.GRAY);
-        nick.setFill(Color.WHITESMOKE);
+            line1.setFill(Color.AQUA);
+            line2.setFill(Color.AQUA);
+            line3.setFill(Color.AQUA);
+            line4.setFill(Color.AQUA);
+            time.setFill(Color.GRAY);
+            nick.setFill(Color.WHITESMOKE);
 
-        line1.setFont(Font.font("",FontWeight.BOLD,20));
-        line2.setFont(Font.font("",FontWeight.BOLD,20));
-        line3.setFont(Font.font("",FontWeight.BOLD,20));
-        line4.setFont(Font.font("Consolas",FontWeight.BOLD,25.1));
-        time.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        nick.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        msg.setCustomSize(19);
-        msg.setCustomFont("Consolas");
+            line1.setFont(Font.font("",FontWeight.BOLD,20));
+            line2.setFont(Font.font("",FontWeight.BOLD,20));
+            line3.setFont(Font.font("",FontWeight.BOLD,20));
+            line4.setFont(Font.font("Consolas",FontWeight.BOLD,25.1));
+            time.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+            nick.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+            msg.setCustomSize(19);
+            msg.setCustomFont("Consolas");
 
-        TextFlow flow = new TextFlow();
-        // https://bugs.openjdk.java.net/browse/JDK-8089029
-        // TODO: 28-Oct-18 be aware of this bug
-        flow.setMaxWidth(1230);
-        flow.getChildren().addAll(line1,time,line2,nick,line3,line4);
-        for(Text t : msg.translateCodes())
-            flow.getChildren().add(t);
-        chat.getItems().add(flow);
+            TextFlow flow = new TextFlow();
+            // https://bugs.openjdk.java.net/browse/JDK-8089029
+            // TODO: 28-Oct-18 be aware of this bug
+            flow.setMaxWidth(1230);
+            flow.getChildren().addAll(line1,time,line2,nick,line3,line4);
+            for(Text t : msg.translateCodes())
+                flow.getChildren().add(t);
+            chat.getItems().add(flow);
+        });
     }
 
     public void joinMsg(String nickname) {
@@ -219,14 +231,6 @@ public class MainController implements Initializable {
                 flow.getChildren().add(t);
             chat.getItems().add(flow);
         });
-    }
-
-    public void setBashrc() {
-       // RichText bsh = new RichText("&1&gSKDown&l@&d164.132.56.199&l:&c~/global &l$");
-        RichText bsh = new RichText("&1&gUsername&l@&d196.168.0.1&l:&c~/example &l$");
-        bsh.setCustomSize(20);
-        bsh.setCustomFont("Consolas");
-        setStatusBar(bsh);
     }
 
     public void setStatusBar(RichText msg) {

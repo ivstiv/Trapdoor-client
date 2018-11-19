@@ -38,13 +38,24 @@ public class ServerConnection extends AbstractConnection {
                                 RichText status = new RichText("&1&bTrying to connect ("+getIP()+"): &fWrong server password!");
                                 controller.setStatusBar(status);
                                 close();
+                            }else if(code == 201) {
+                                RichText status = new RichText("&1&bTrying to connect ("+getIP()+"): &fUsername is already in use!");
+                                controller.setStatusBar(status);
+                                close();
+                            }else if(code == 202) {
+                                RichText status = new RichText("&1&bTrying to connect ("+getIP()+"): &fForbidden username!");
+                                controller.setStatusBar(status);
+                                close();
                             }
                             break;
                         case MSG:
+                            String username = r.getContent().get("sender").getAsString();
+                            String message = r.getContent().get("message").getAsString();
+                            controller.addMsg(username, message);
                             break;
                         case ACTION:
                             String action = r.getContent().get("action").getAsString();
-                            if(action.equals("show_motd")) {
+                            if(action.equals("print")) {
                                 controller.print(r.getContent().get("message").getAsString());
                                 break;
                             }else if(action.equals("update_statusbar")) {
@@ -70,7 +81,6 @@ public class ServerConnection extends AbstractConnection {
         new Thread(() -> {
             System.out.println("Transmission control handler running . . .");
             while(isConnected) {
-                System.out.println("Is connected:"+isConnected);
 
                 try {
                     Thread.sleep(2000);
@@ -78,8 +88,11 @@ public class ServerConnection extends AbstractConnection {
                     e.printStackTrace();
                 }
 
-                System.out.println("\nNot received requests: "+sentRequests.size());
+                if(sentRequests.size() > 0)
+                    System.out.println("\nNot received requests: "+sentRequests.size());
                 ConcurrentNavigableMap<Long, Request> reqs = getRequestsOlderThan(8);
+                // sometimes the isConnected gets cached so this will act as a poison pill
+                if(reqs.containsKey(-1L)) return; // -1 comes from close()
 
                 if(!reqs.isEmpty()) {
                     System.out.println("do stuff there are requests that are not received by the server ");
