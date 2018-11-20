@@ -20,6 +20,7 @@ public class Main extends Application {
 
         final MainController mainController = new MainController(primaryStage);
         ServiceLocator.initialiseService(mainController);
+        ServiceLocator.initialiseService(this);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/fxml/main.fxml"));

@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -193,7 +194,7 @@ public class MainController implements Initializable {
             // TODO: 28-Oct-18 be aware of this bug
             flow.setMaxWidth(1230);
             flow.getChildren().addAll(line1,time,line2,nick,line3,line4);
-            for(Text t : msg.translateCodes())
+            for(Node t : msg.translateCodes())
                 flow.getChildren().add(t);
             chat.getItems().add(flow);
         });
@@ -228,7 +229,7 @@ public class MainController implements Initializable {
             // https://bugs.openjdk.java.net/browse/JDK-8089029
             // TODO: 28-Oct-18 be aware of this bug
             flow.setMaxWidth(1230);
-            for(Text t : text.translateCodes())
+            for(Node t : text.translateCodes())
                 flow.getChildren().add(t);
             chat.getItems().add(flow);
         });
@@ -239,14 +240,14 @@ public class MainController implements Initializable {
             msg.setCustomSize(20);
             msg.setCustomFont("Consolas");
             bashrc.getChildren().clear();
-            for(Text t : msg.translateCodes())
+            for(Node t : msg.translateCodes())
                 bashrc.getChildren().add(t);
         }else{
             Platform.runLater(() -> {
                 msg.setCustomSize(20);
                 msg.setCustomFont("Consolas");
                 bashrc.getChildren().clear();
-                for(Text t : msg.translateCodes())
+                for(Node t : msg.translateCodes())
                     bashrc.getChildren().add(t);
             });
         }
