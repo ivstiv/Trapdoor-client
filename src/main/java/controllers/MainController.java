@@ -96,7 +96,8 @@ public class MainController implements Initializable {
                         chat.scrollTo(chat.getItems().size());
                         if(ServiceLocator.hasSerivce(ServerConnection.class)) {
                             String username = ServiceLocator.getService(ServerConnection.class).getUSERNAME();
-                            addMsg(username, text);
+                            if(!text.startsWith("/"))
+                                addMsg(username, text);
                             JsonObject payload = new JsonObject();
                             payload.addProperty("message", text);
                             Request r = new Request(RequestType.MSG, payload);

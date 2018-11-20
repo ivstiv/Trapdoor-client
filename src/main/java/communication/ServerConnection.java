@@ -35,17 +35,23 @@ public class ServerConnection extends AbstractConnection {
                                 sentRequests.remove(timeStamp);
                                 break;
                             }else if(code == 200) {
-                                RichText status = new RichText("&1&bTrying to connect ("+getIP()+"): &fWrong server password!");
+                                RichText status = new RichText("&1&bResponse ("+getIP()+"): &fWrong server password!");
                                 controller.setStatusBar(status);
                                 close();
                             }else if(code == 201) {
-                                RichText status = new RichText("&1&bTrying to connect ("+getIP()+"): &fUsername is already in use!");
+                                RichText status = new RichText("&1&bResponse ("+getIP()+"): &fUsername is already in use!");
                                 controller.setStatusBar(status);
                                 close();
                             }else if(code == 202) {
-                                RichText status = new RichText("&1&bTrying to connect ("+getIP()+"): &fForbidden username!");
+                                RichText status = new RichText("&1&bResponse ("+getIP()+"): &fForbidden username!");
                                 controller.setStatusBar(status);
                                 close();
+                            }else if(code == 203) {
+                                RichText status = new RichText("&1&bResponse ("+getIP()+"): &fServer is full!");
+                                controller.setStatusBar(status);
+                                close();
+                            }else if(code == 204) {
+                                controller.print("&1&a[Server]&r&fUnknown command..");
                             }
                             break;
                         case MSG:

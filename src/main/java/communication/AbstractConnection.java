@@ -3,10 +3,12 @@ package communication;
 import com.google.gson.JsonObject;
 import communication.security.AES;
 import communication.security.RSA;
+import controllers.MainController;
 import core.ServiceLocator;
 import data.Request;
 import data.RequestType;
 import exceptions.MalformedRequestException;
+import misc.RichText;
 
 import java.io.*;
 import java.net.Socket;
@@ -63,6 +65,11 @@ public abstract class AbstractConnection {
 
             } catch (IOException e) {
                 System.err.println("Exception in connect(): " + e.getMessage());
+                if(ServiceLocator.hasSerivce(MainController.class)) {
+                    RichText status = new RichText("&1&bTrying to connect (" + getIP() + "): &fUnable to establish connection!");
+                    ServiceLocator.getService(MainController.class).setStatusBar(status);
+                }
+                close();
                 return;
                 //wrapper.showWarning("The remote host refused the connection! Check your internet connection or the website for any details.");
             } catch (Exception e) {
@@ -164,7 +171,8 @@ public abstract class AbstractConnection {
         sentRequests.put(-1L, new Request(RequestType.POISON_PILL, new JsonObject()));
         ServiceLocator.removeService(ServerConnection.class);
         try {
-            socket.close();
+            if(socket != null)
+                socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
