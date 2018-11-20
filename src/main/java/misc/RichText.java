@@ -38,7 +38,7 @@ public class RichText {
             String[] tokens = text.split("(?="+SPECIAL_CHAR+"[a-z1-4])");
 
             for(String token : tokens) {
-                System.out.println(token);
+                //System.out.println(token);
                 // this changes activeStyles and returns a text without codes
                 String clearToken =  extractStyles(token);
                 if(!clearToken.isEmpty()) {
@@ -54,8 +54,8 @@ public class RichText {
                         url.setFont(Font.font(this.customFont, FontWeight.BOLD, this.customSize));
                         url.setUnderline(true);
                         url.setOnAction(event -> {
-                            ServiceLocator.getService(Main.class).getHostServices().showDocument("www.google.com");
-
+                            Hyperlink link = (Hyperlink) event.getSource(); // open the link in a browser
+                            ServiceLocator.getService(Main.class).getHostServices().showDocument(link.getText());
                         });
                         newText.add(url);
                     }else{
@@ -138,7 +138,7 @@ public class RichText {
     }
 
     private boolean isUrl(String text) {
-        Pattern p = Pattern.compile("^(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}\\.([a-z/]+.*)$");
+        Pattern p = Pattern.compile("^(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[0-9a-z]{2}\\.([a-z/]+.*)$");
         Matcher m = p.matcher(text);
         return m.matches();
     }
