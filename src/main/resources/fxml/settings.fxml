@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../css/connect.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="158.0" minHeight="6.0" prefHeight="52.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="249.0" minHeight="10.0" prefHeight="90.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="349.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="178.0" minHeight="10.0" prefHeight="139.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="SETTINGS" textFill="WHITE" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <font>
+            <Font name="Consolas Bold" size="32.0" />
+         </font>
+         <GridPane.margin>
+            <Insets top="30.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="USERNAME" textFill="WHITE" GridPane.columnSpan="2" GridPane.rowIndex="1">
+         <font>
+            <Font name="Consolas Bold" size="25.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="20.0" left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField fx:id="username" prefHeight="40.0" prefWidth="500.0" styleClass="field" text="User97262" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="20.0" right="20.0" top="50.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Consolas Bold" size="20.0" />
+         </font>
+      </TextField>
+      <Label text="STATUS BAR" textFill="WHITE" GridPane.rowIndex="2">
+         <font>
+            <Font name="Consolas Bold" size="25.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="20.0" left="20.0" />
+         </GridPane.margin>
+      </Label>
+      <Label text="TIMEZONE" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <font>
+            <Font name="Consolas Bold" size="25.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="20.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField fx:id="ipField" prefHeight="40.0" prefWidth="500.0" styleClass="field" text="&amp;1&amp;g{username}&amp;l@&amp;d{ip}&amp;l:&amp;c~/{channel} &amp;l$" GridPane.columnSpan="2" GridPane.rowIndex="2">
+         <font>
+            <Font name="Consolas Bold" size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" right="20.0" top="50.0" />
+         </GridPane.margin>
+      </TextField>
+      <Label text="LANGUAGE" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <font>
+            <Font name="Consolas Bold" size="25.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="20.0" left="140.0" />
+         </GridPane.margin>
+      </Label>
+      <Button fx:id="connectBtn" mnemonicParsing="false" prefWidth="500.0" text="SAVE" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+         <font>
+            <Font name="Consolas Bold" size="25.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="20.0" right="20.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="cancelBtn" mnemonicParsing="false" prefWidth="500.0" text="CANCEL" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+         <font>
+            <Font name="Consolas Bold" size="25.0" />
+         </font>
+         <GridPane.margin>
+            <Insets right="20.0" />
+         </GridPane.margin>
+      </Button>
+      <MenuButton mnemonicParsing="false" prefHeight="40.0" prefWidth="500.0" styleClass="button-custom" stylesheets="@../css/style.css" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <items>
+          <MenuItem mnemonicParsing="false" text="GMT" />
+          <MenuItem mnemonicParsing="false" text="GMT+1" />
+            <MenuItem mnemonicParsing="false" text="GMT+2" />
+            <MenuItem mnemonicParsing="false" text="GMT+3" />
+            <MenuItem mnemonicParsing="false" text="GMT+3:30" />
+            <MenuItem mnemonicParsing="false" text="GMT+4" />
+            <MenuItem mnemonicParsing="false" text="GMT+5" />
+            <MenuItem mnemonicParsing="false" text="GMT+5:30" />
+            <MenuItem mnemonicParsing="false" text="GMT+6" />
+            <MenuItem mnemonicParsing="false" text="GMT+7" />
+            <MenuItem mnemonicParsing="false" text="GMT+8" />
+            <MenuItem mnemonicParsing="false" text="GMT+9" />
+            <MenuItem mnemonicParsing="false" text="GMT+9:30" />
+            <MenuItem mnemonicParsing="false" text="GMT+10" />
+            <MenuItem mnemonicParsing="false" text="GMT+11" />
+            <MenuItem mnemonicParsing="false" text="GMT+12" />
+            <MenuItem mnemonicParsing="false" text="GMT-11" />
+            <MenuItem mnemonicParsing="false" text="GMT-10" />
+            <MenuItem mnemonicParsing="false" text="GMT-9" />
+            <MenuItem mnemonicParsing="false" text="GMT-8" />
+            <MenuItem mnemonicParsing="false" text="GMT-7" />
+            <MenuItem mnemonicParsing="false" text="GMT-6" />
+            <MenuItem mnemonicParsing="false" text="GMT-5" />
+            <MenuItem mnemonicParsing="false" text="GMT-4" />
+            <MenuItem mnemonicParsing="false" text="GMT-3:30" />
+            <MenuItem mnemonicParsing="false" text="GMT-3" />
+            <MenuItem mnemonicParsing="false" text="GMT-1" />
+        </items>
+         <GridPane.margin>
+            <Insets right="160.0" top="50.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Consolas Bold" size="18.0" />
+         </font>
+      </MenuButton>
+      <MenuButton mnemonicParsing="false" prefHeight="40.0" prefWidth="500.0" styleClass="button-custom" stylesheets="@../css/style.css" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <font>
+            <Font name="Consolas Bold" size="18.0" />
+         </font>
+         <items>
+            <MenuItem mnemonicParsing="false" text="English" />
+            <MenuItem mnemonicParsing="false" text="Български" />
+         </items>
+         <GridPane.margin>
+            <Insets left="140.0" right="20.0" top="50.0" />
+         </GridPane.margin>
+      </MenuButton>
+      <Hyperlink text="List of color codes" textFill="WHITE" underline="true" GridPane.columnSpan="2" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="20.0" left="160.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Consolas Italic" size="18.0" />
+         </font>
+      </Hyperlink>
+   </children>
+</GridPane>

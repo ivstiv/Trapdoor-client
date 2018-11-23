@@ -1,6 +1,5 @@
 package misc;
 
-import controllers.MainController;
 import core.Main;
 import core.ServiceLocator;
 import javafx.scene.Node;
@@ -11,11 +10,6 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,7 +37,7 @@ public class RichText {
                 String clearToken =  extractStyles(token);
                 if(!clearToken.isEmpty()) {
                     if(isUrl(clearToken)) {
-                        /* TODO: 20-Nov-18
+                        /* TODO: 20-Nov-18 ! ! ! CHECK THIS ! ! !
                             works only if the link is on its own or if the link is prefixed with
                             a style in a sentence eg. "this is a link &1google.com"
                             also the ampersand interferes with the URLS so it should be switched
