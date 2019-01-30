@@ -104,7 +104,7 @@ public class ConnectController implements Initializable {
 
             // stop and remove previous connection
             if(ServiceLocator.hasSerivce(ServerConnection.class)) {
-              ServiceLocator.getService(ServerConnection.class).close();
+              ServiceLocator.getService(ServerConnection.class).close(true);
               ServiceLocator.removeService(ServerConnection.class);
             }
 

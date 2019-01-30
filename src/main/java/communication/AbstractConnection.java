@@ -74,7 +74,7 @@ public abstract class AbstractConnection {
                     RichText status = new RichText(msg);
                     ServiceLocator.getService(MainController.class).setStatusBar(status);
                 }
-                close();
+                close(true);
                 return;
                 //wrapper.showWarning("The remote host refused the connection! Check your internet connection or the website for any details.");
             } catch (Exception e) {
@@ -124,6 +124,7 @@ public abstract class AbstractConnection {
             System.out.println("Incoming requests listener running . . .");
             while(isConnected) {
                 Request r = readRequest();
+                if(r == null) break; // the readRequest() is trying to close the connection
                 incomingRequests.add(r);
             }
             System.out.println("Incoming requests listener stopped . . .");
@@ -135,13 +136,17 @@ public abstract class AbstractConnection {
         try {
             encrypted = in.readLine();
         } catch (IOException e) { // if the server drops the connection unexpectedly
-            close();
+            close(true);
+            ServiceLocator.getService(MainController.class).print(data.getMessage("terminated"));
+            return null;
         }
         if (encrypted == null) { // the reader reads null because the end of the stream is reached
-            return new Request(RequestType.POISON_PILL, new JsonObject()); // dummy request
+            close(true);
+            ServiceLocator.getService(MainController.class).print(data.getMessage("closed"));
+            return null;
         }
         String decrypted = aes.decrypt(encrypted);
-        System.out.println("INCOMING:"+decrypted);
+        System.out.println("IN:"+decrypted);
         return new Request(decrypted);
     }
 
@@ -153,7 +158,7 @@ public abstract class AbstractConnection {
     }
 
     protected void send(String msg) {
-        System.out.println("OUTGOING:"+msg);
+        System.out.println("OUT:"+msg);
         out.println(aes.encrypt(msg));
         out.flush();
     }
@@ -169,7 +174,7 @@ public abstract class AbstractConnection {
             System.out.println("[WARNING]Trying to send an invalid request!");
     }
 
-    public void close(){
+    public void close(boolean updateStatus){
         isConnected = false;
         sendRequest(new Request(RequestType.POISON_PILL, new JsonObject()));
         incomingRequests.add(new Request(RequestType.POISON_PILL, new JsonObject()));

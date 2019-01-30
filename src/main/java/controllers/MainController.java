@@ -115,7 +115,7 @@ public class MainController implements Initializable {
                 try {
                     if(ServiceLocator.hasSerivce(ServerConnection.class)) {
                         ServerConnection con = ServiceLocator.getInitialisedService(ServerConnection.class);
-                        con.close();
+                        con.close(true);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

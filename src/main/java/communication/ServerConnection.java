@@ -43,28 +43,28 @@ public class ServerConnection extends AbstractConnection {
                                         data.getMessage("response"), getIP(), data.getMessage("wrong-password"));
                                 RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
-                                close();
+                                close(false);
 
                             }else if(code == 201) {
                                 String msg = String.format("%s (%s): %s",
                                         data.getMessage("response"), getIP(), data.getMessage("username-in-use"));
                                 RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
-                                close();
+                                close(false);
 
                             }else if(code == 202) {
                                 String msg = String.format("%s (%s): %s",
                                         data.getMessage("response"), getIP(), data.getMessage("forbidden-username"));
                                 RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
-                                close();
+                                close(false);
 
                             }else if(code == 203) {
                                 String msg = String.format("%s (%s): %s",
                                         data.getMessage("response"), getIP(), data.getMessage("full-server"));
                                 RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
-                                close();
+                                close(false);
 
                             }else if(code == 204) {
                                 controller.print(data.getMessage("unknown-command"));
@@ -114,7 +114,7 @@ public class ServerConnection extends AbstractConnection {
                     System.out.println("\nNot received requests: "+sentRequests.size());
                 ConcurrentNavigableMap<Long, Request> reqs = getRequestsOlderThan(8);
                 // sometimes the isConnected gets cached so this will act as a poison pill
-                if(reqs.containsKey(-1L)) return; // -1 comes from close()
+                if(reqs.containsKey(-1L)) break; // -1 comes from close()
 
                 if(!reqs.isEmpty()) {
                     System.out.println("do stuff there are requests that are not received by the server ");
