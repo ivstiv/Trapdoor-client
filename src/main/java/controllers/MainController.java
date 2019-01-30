@@ -56,12 +56,6 @@ public class MainController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        JsonObject json = new JsonObject();
-        json.addProperty("message", "тест");
-
-        addMsg(json.get("message").getAsString(),json.get("message").getAsString());
-        addMsg("тест2", "тест2");
-
         MenuItem item = new MenuItem("New connection");
         item.setOnAction(event -> {
             MenuItem i = (MenuItem) event.getSource();
@@ -80,12 +74,12 @@ public class MainController implements Initializable {
         }
 
         // set default status bar
-        RichText bsh = new RichText("&1&gUsername&l@&d196.168.0.1&l:&c~/example &l$");
+        RichText bsh = new RichText("~1~gUsername~l@~d196.168.0.1~l:~c~/example ~l$");
         bsh.setCustomSize(20);
         bsh.setCustomFont("Consolas");
         setStatusBar(bsh);
 
-        Tooltip tp = new Tooltip("This shows your username, server ip and the channel you are into.");
+        Tooltip tp = new Tooltip(dl.getMessage("tooltip-status-bar"));
         tp.setFont(Font.font("Consolas",FontWeight.BOLD,15));
         Tooltip.install(bashrc, tp);
         chatInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -178,7 +172,7 @@ public class MainController implements Initializable {
             Text nick = new Text(username);
             Text line3 = new Text("]\n");
             Text line4 = new Text("\u255a>");
-            RichText msg = new RichText("&x"+message);
+            RichText msg = new RichText("~x"+message);
 
             line1.setFill(Color.AQUA);
             line2.setFill(Color.AQUA);

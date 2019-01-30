@@ -28,13 +28,12 @@ import java.util.function.Predicate;
 
 public class ConnectController implements Initializable {
 
-
     @FXML private Button cancelBtn, saveBtn, connectBtn;
     @FXML private GridPane pane;
     @FXML private TextField username, password, ipField, port;
     private Stage stage;
     private String ip;
-    private MainController connectMain; // refference to the dropdown to edit the list of items
+    private MainController connectMain; // need it for refference to the dropdown to edit the list of items
 
     public ConnectController(Stage stage, String ip, MainController connectMain) {
         this.stage = stage;
@@ -109,7 +108,8 @@ public class ConnectController implements Initializable {
               ServiceLocator.removeService(ServerConnection.class);
             }
 
-            connectMain.setStatusBar(new RichText("&1&bTrying to connect ("+ipField.getText()+"). . ."));
+            String msg = String.format("%s (%s). . .", dl.getMessage("trying"), ipField.getText());
+            connectMain.setStatusBar(new RichText(msg));
             stage.close();
             ServerConnection con = new ServerConnection(
                     ipField.getText(),

@@ -1,6 +1,8 @@
 package core;
 
+import data.DataLoader;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -46,12 +48,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
     }
-
-
-
-
-
-
 
     public static void main(String[] args) {
         launch(args);

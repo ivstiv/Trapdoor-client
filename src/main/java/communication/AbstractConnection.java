@@ -6,6 +6,7 @@ import communication.security.AES_OLD;
 import communication.security.RSA;
 import controllers.MainController;
 import core.ServiceLocator;
+import data.DataLoader;
 import data.Request;
 import data.RequestType;
 import exceptions.MalformedRequestException;
@@ -26,6 +27,7 @@ public abstract class AbstractConnection {
     // User data
     private final String IP, USERNAME, PASSWORD;
     private final int PORT;
+    protected DataLoader data = ServiceLocator.getService(DataLoader.class);
 
     // Communication objects
     protected volatile boolean isConnected = false;
@@ -67,7 +69,9 @@ public abstract class AbstractConnection {
             } catch (IOException e) {
                 System.err.println("Exception in connect(): " + e.getMessage());
                 if(ServiceLocator.hasSerivce(MainController.class)) {
-                    RichText status = new RichText("&1&bTrying to connect (" + getIP() + "): &fUnable to establish connection!");
+                    String msg = String.format("%s (%s): %s",
+                            data.getMessage("trying"), getIP(), data.getMessage("failed-connection"));
+                    RichText status = new RichText(msg);
                     ServiceLocator.getService(MainController.class).setStatusBar(status);
                 }
                 close();
@@ -138,8 +142,6 @@ public abstract class AbstractConnection {
         }
         String decrypted = aes.decrypt(encrypted);
         System.out.println("INCOMING:"+decrypted);
-        decrypted.codePoints().forEach(el -> System.out.print(el+" "));
-        System.out.println();
         return new Request(decrypted);
     }
 
@@ -152,8 +154,6 @@ public abstract class AbstractConnection {
 
     protected void send(String msg) {
         System.out.println("OUTGOING:"+msg);
-        msg.codePoints().forEach(el -> System.out.print(el+" "));
-        System.out.println();
         out.println(aes.encrypt(msg));
         out.flush();
     }

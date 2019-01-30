@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 /*
     Immutable data class with deep copies!
-    Don't try to change the content once set.
+    Don't try to change the contents once set.
  */
 public class Request {
 

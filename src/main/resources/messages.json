@@ -1,0 +1,11 @@
+{
+  "response": "~1~bResponse",
+  "wrong-password": "~fWrong server password!",
+  "username-in-use": "~fUsername is already in use!",
+  "forbidden-username": "~fForbidden username!",
+  "full-server": "~fServer is full!",
+  "unknown-command": "~1~a[Server]~r~fUnknown command..",
+  "failed-connection": "~fUnable to establish connection!",
+  "trying": "~1~bTrying to connect",
+  "tooltip-status-bar": "This shows your username, server ip and the channel you are into."
+}

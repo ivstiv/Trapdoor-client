@@ -2,15 +2,26 @@ package data;
 
 
 import com.google.gson.*;
+import core.Main;
+import core.ServiceLocator;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 // This class will be held in the Service Locator so it will be singleton
 public final class DataLoader {
 
     private Map<String, SavedConnection> savedConnections;
+    private JsonObject messages;
     private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+
+    /*
+
+        SAVED CONNECTIONS
+
+    */
 
     public Map<String, SavedConnection> getSavedConnections() {
         if(savedConnections == null)
@@ -83,5 +94,28 @@ public final class DataLoader {
             return new HashMap<>();
         }
         return new HashMap<>();
+    }
+
+    /*
+
+        MESSAGES
+
+    */
+
+    public String getMessage(String key) {
+        if(this.messages == null)
+            this.messages = loadMessages();
+        if(messages.has(key))
+            return messages.get(key).getAsString();
+        else
+            return "[ERROR] MISSING KEY:"+key;
+    }
+
+    private JsonObject loadMessages() {
+        InputStream stream = Main.class.getClassLoader().getResourceAsStream("messages.json");
+        InputStreamReader isr = new InputStreamReader(stream);
+        BufferedReader br = new BufferedReader(isr);
+        String json = br.lines().collect(StringBuilder::new,StringBuilder::append,StringBuilder::append).toString();
+        return gson.fromJson(json, JsonObject.class);
     }
 }

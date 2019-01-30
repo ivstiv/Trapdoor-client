@@ -2,6 +2,7 @@ package communication;
 
 import controllers.MainController;
 import core.ServiceLocator;
+import data.DataLoader;
 import data.Request;
 import data.RequestType;
 import misc.RichText;
@@ -19,6 +20,7 @@ public class ServerConnection extends AbstractConnection {
         new Thread(() -> {
             System.out.println("Incoming requests handler running . . .");
             MainController controller = ServiceLocator.getService(MainController.class);
+
             Request r = null;
 
             while(isConnected) {
@@ -30,28 +32,42 @@ public class ServerConnection extends AbstractConnection {
 
                         case RESPONSE:
                             int code = r.getContent().get("code").getAsInt();
+
                             if(code == 100) {
                                 long timeStamp = r.getContent().get("timestamp").getAsLong();
                                 sentRequests.remove(timeStamp);
                                 break;
+
                             }else if(code == 200) {
-                                RichText status = new RichText("&1&bResponse ("+getIP()+"): &fWrong server password!");
+                                String msg = String.format("%s (%s): %s",
+                                        data.getMessage("response"), getIP(), data.getMessage("wrong-password"));
+                                RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
                                 close();
+
                             }else if(code == 201) {
-                                RichText status = new RichText("&1&bResponse ("+getIP()+"): &fUsername is already in use!");
+                                String msg = String.format("%s (%s): %s",
+                                        data.getMessage("response"), getIP(), data.getMessage("username-in-use"));
+                                RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
                                 close();
+
                             }else if(code == 202) {
-                                RichText status = new RichText("&1&bResponse ("+getIP()+"): &fForbidden username!");
+                                String msg = String.format("%s (%s): %s",
+                                        data.getMessage("response"), getIP(), data.getMessage("forbidden-username"));
+                                RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
                                 close();
+
                             }else if(code == 203) {
-                                RichText status = new RichText("&1&bResponse ("+getIP()+"): &fServer is full!");
+                                String msg = String.format("%s (%s): %s",
+                                        data.getMessage("response"), getIP(), data.getMessage("full-server"));
+                                RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
                                 close();
+
                             }else if(code == 204) {
-                                controller.print("&1&a[Server]&r&fUnknown command..");
+                                controller.print(data.getMessage("unknown-command"));
                             }
                             break;
                         case MSG:
@@ -66,7 +82,7 @@ public class ServerConnection extends AbstractConnection {
                                 break;
                             }else if(action.equals("update_statusbar")) {
                                 String channel = r.getContent().get("channel").getAsString();
-                                controller.setStatusBar(new RichText("&1&g"+getUSERNAME()+"&l@&d"+getIP()+"&l:&c~/"+channel+" &l$"));
+                                controller.setStatusBar(new RichText("~1~g"+getUSERNAME()+"~l@~d"+getIP()+"~l:~c~/"+channel+" ~l$"));
                                 break;
                             }
                             break;

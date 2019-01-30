@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 
 public class RichText {
 
-    private char SPECIAL_CHAR = '&';
+    private char SPECIAL_CHAR = '~';
     private String text;
     private double customSize = -1; // if this is not set i wont do anything
     private String customFont = ""; // if this is not set i wont do anything
