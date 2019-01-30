@@ -1,16 +1,11 @@
 package core;
 
-import communication.ServerConnection;
-import data.DataLoader;
-import data.SavedConnection;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import controllers.MainController;
 
 public class Main extends Application {
@@ -18,6 +13,24 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+/*
+        String test = "тест";
+        System.out.println("Plain text: "+test);
+        test.codePoints().forEach(el -> System.out.print(el+" "));
+        System.out.println();
+        AES2 aes = new AES2();
+        String encrypted = aes.encrypt(test);
+        System.out.println("Encrypted base 64 text: "+encrypted);
+        System.out.println("Decrypted text: "+aes.decrypt(encrypted));
+        aes.decrypt(encrypted).codePoints().forEach(el -> System.out.print(el+" "));
+
+
+        "тест".codePoints().forEach(el -> System.out.print(el+" "));
+        System.out.println();
+        JsonObject c = new JsonObject();
+        c.addProperty("message", "тест");
+        c.get("message").getAsString().codePoints().forEach(el -> System.out.print(el+" "));
+*/
         final MainController mainController = new MainController(primaryStage);
         ServiceLocator.initialiseService(mainController);
         ServiceLocator.initialiseService(this);

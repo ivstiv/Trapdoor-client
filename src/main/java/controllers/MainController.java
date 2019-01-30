@@ -33,6 +33,7 @@ import misc.RichText;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,6 +55,12 @@ public class MainController implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+
+        JsonObject json = new JsonObject();
+        json.addProperty("message", "тест");
+
+        addMsg(json.get("message").getAsString(),json.get("message").getAsString());
+        addMsg("тест2", "тест2");
 
         MenuItem item = new MenuItem("New connection");
         item.setOnAction(event -> {

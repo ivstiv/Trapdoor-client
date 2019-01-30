@@ -2,7 +2,10 @@ package data;
 
 
 import com.google.gson.*;
+import com.google.gson.internal.GsonBuildConfig;
 import exceptions.MalformedRequestException;
+
+import java.nio.charset.StandardCharsets;
 
 
 /*

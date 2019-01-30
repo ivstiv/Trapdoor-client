@@ -2,6 +2,7 @@ package communication;
 
 import com.google.gson.JsonObject;
 import communication.security.AES;
+import communication.security.AES_OLD;
 import communication.security.RSA;
 import controllers.MainController;
 import core.ServiceLocator;
@@ -137,6 +138,8 @@ public abstract class AbstractConnection {
         }
         String decrypted = aes.decrypt(encrypted);
         System.out.println("INCOMING:"+decrypted);
+        decrypted.codePoints().forEach(el -> System.out.print(el+" "));
+        System.out.println();
         return new Request(decrypted);
     }
 
@@ -149,6 +152,8 @@ public abstract class AbstractConnection {
 
     protected void send(String msg) {
         System.out.println("OUTGOING:"+msg);
+        msg.codePoints().forEach(el -> System.out.print(el+" "));
+        System.out.println();
         out.println(aes.encrypt(msg));
         out.flush();
     }

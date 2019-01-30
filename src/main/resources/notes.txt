@@ -1,0 +1,8 @@
+RSA and Double ratchet ideas:
+    implement this https://gist.github.com/itarato/abef95871756970a9dad
+    https://stackoverflow.com/questions/1220751/how-to-choose-an-aes-encryption-mode-cbc-ecb-ctr-ocb-cfb
+    https://blog.skullsecurity.org/2013/a-padding-oracle-example
+    https://www.schneier.com/books/cryptography_engineering/
+    https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9
+    https://crypto.stackexchange.com/questions/40757/key-derivation-functions-kdf-what-are-main-purposes-how-can-they-be-used
+    http://webee.technion.ac.il/~hugo/kdf/
