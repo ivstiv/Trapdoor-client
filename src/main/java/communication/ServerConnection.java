@@ -2,7 +2,6 @@ package communication;
 
 import controllers.MainController;
 import core.ServiceLocator;
-import data.DataLoader;
 import data.Request;
 import data.RequestType;
 import misc.RichText;
@@ -73,8 +72,16 @@ public class ServerConnection extends AbstractConnection {
                         case MSG:
                             String username = r.getContent().get("sender").getAsString();
                             String message = r.getContent().get("message").getAsString();
-                            controller.addMsg(username, message);
+                            controller.addPublicMsg(username, message);
                             break;
+
+                        case PRIVATE_MSG:
+                            String sender = r.getContent().get("sender").getAsString();
+                            String receiver = r.getContent().get("receiver").getAsString();
+                            String privateMessage = r.getContent().get("message").getAsString();
+                            controller.addPrivateMsg(sender, receiver, privateMessage);
+                            break;
+
                         case ACTION:
                             String action = r.getContent().get("action").getAsString();
                             if(action.equals("print")) {

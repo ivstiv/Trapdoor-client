@@ -33,7 +33,6 @@ import misc.RichText;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,6 +54,8 @@ public class MainController implements Initializable {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+
+        addPrivateMsg("ivan", "nasko", "taina");
 
         MenuItem item = new MenuItem("New connection");
         item.setOnAction(event -> {
@@ -101,7 +102,7 @@ public class MainController implements Initializable {
                         if(ServiceLocator.hasSerivce(ServerConnection.class)) {
                             String username = ServiceLocator.getService(ServerConnection.class).getUSERNAME();
                             if(!text.startsWith("/"))
-                                addMsg(username, text);
+                                addPublicMsg(username, text);
                             JsonObject payload = new JsonObject();
                             payload.addProperty("message", text);
                             Request r = new Request(RequestType.MSG, payload);
@@ -161,7 +162,57 @@ public class MainController implements Initializable {
         chat.getItems().clear();
     }
 
-    public void addMsg(String username, String message) {
+    public void addPrivateMsg(String sender, String receiver, String message) {
+        Platform.runLater(() -> {
+            Date date = new Date(System.currentTimeMillis());
+            DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            String dateFormatted = formatter.format(date);
+
+            Text line1 = new Text("\u2554\u2550[");
+            Text time = new Text(dateFormatted);
+            Text line2 = new Text("]\u2550[");
+            Text nick = new Text(receiver+" <- "+sender);
+            Text line3 = new Text("]\u2550[");
+            Text type = new Text("private");
+            Text line5 = new Text("]\n");
+            Text line4 = new Text("\u255a>");
+            RichText msg = new RichText("~x"+message);
+
+            line1.setFill(Color.AQUA);
+            line2.setFill(Color.AQUA);
+            line3.setFill(Color.AQUA);
+            line4.setFill(Color.AQUA);
+            line5.setFill(Color.AQUA);
+            time.setFill(Color.GRAY);
+            nick.setFill(Color.WHITESMOKE);
+            type.setFill(Color.PLUM);
+
+            line1.setFont(Font.font("",FontWeight.BOLD,20));
+            line2.setFont(Font.font("",FontWeight.BOLD,20));
+            line3.setFont(Font.font("",FontWeight.BOLD,20));
+            line5.setFont(Font.font("",FontWeight.BOLD,20));
+            line4.setFont(Font.font("Consolas",FontWeight.BOLD,25.1));
+            time.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+            nick.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+            type.setFont(Font.font("Consolas",FontWeight.BOLD,20));
+            msg.setCustomSize(19);
+            msg.setCustomFont("Consolas");
+
+            TextFlow flow = new TextFlow();
+            // https://bugs.openjdk.java.net/browse/JDK-8089029
+            // TODO: 28-Oct-18 be aware of this bug
+            flow.setMaxWidth(1230);
+            flow.getChildren().addAll(line1,time,line2,nick,line3,type, line5, line4);
+            for(Node t : msg.translateCodes())
+                flow.getChildren().add(t);
+            chat.getItems().add(flow);
+
+            chat.scrollTo(chat.getItems().size()-1);
+        });
+    }
+
+    public void addPublicMsg(String username, String message) {
         Platform.runLater(() -> {
             Date date = new Date(System.currentTimeMillis());
             DateFormat formatter = new SimpleDateFormat("HH:mm:ss");

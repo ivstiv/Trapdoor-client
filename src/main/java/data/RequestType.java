@@ -1,7 +1,7 @@
 package data;
 
 public enum RequestType {
-    CONNECT, ACTION, RESPONSE, MSG, POISON_PILL
+    CONNECT, ACTION, RESPONSE, MSG, POISON_PILL, PRIVATE_MSG
 }
 
  /*
