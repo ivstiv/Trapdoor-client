@@ -74,7 +74,7 @@ public class MainController implements Initializable {
         }
 
         // set default status bar
-        RichText bsh = new RichText("~1~gUsername~l@~d196.168.0.1~l:~c~/example ~l$");
+        RichText bsh = new RichText("~1~gUsername~l@~d192.168.0.1~l:~c~/example ~l$");
         bsh.setCustomSize(20);
         bsh.setCustomFont("Consolas");
         setStatusBar(bsh);
@@ -82,6 +82,8 @@ public class MainController implements Initializable {
         Tooltip tp = new Tooltip(dl.getMessage("tooltip-status-bar"));
         tp.setFont(Font.font("Consolas",FontWeight.BOLD,15));
         Tooltip.install(bashrc, tp);
+
+        /* CHAT INPUT */
         chatInput.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -198,27 +200,9 @@ public class MainController implements Initializable {
             for(Node t : msg.translateCodes())
                 flow.getChildren().add(t);
             chat.getItems().add(flow);
+
+            chat.scrollTo(chat.getItems().size()-1);
         });
-    }
-
-    public void joinMsg(String nickname) {
-        Text t1 = new Text("[");
-        t1.setFill(Color.AQUA);
-        Text t2 = new Text("Server");
-        t2.setFill(Color.AQUA);
-        Text t3 = new Text("] ");
-        t3.setFill(Color.AQUA);
-        Text t4 = new Text(nickname+" has joined!");
-        t4.setFill(Color.GOLDENROD);
-
-        t1.setFont(Font.font("",FontWeight.BOLD,20));
-        t3.setFont(Font.font("",FontWeight.BOLD,20));
-        t2.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        t4.setFont(Font.font("Consolas",FontWeight.BOLD,20));
-        TextFlow flow = new TextFlow();
-        flow.setMaxWidth(1000);
-        flow.getChildren().addAll(t1,t2,t3,t4);
-        chat.getItems().add(flow);
     }
 
     public void print(String msg) {

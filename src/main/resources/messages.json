@@ -4,10 +4,9 @@
   "username-in-use": "~fUsername is already in use!",
   "forbidden-username": "~fForbidden username!",
   "full-server": "~fServer is full!",
-  "unknown-command": "~1~a[Server]~r~fUnknown command..",
   "failed-connection": "~fUnable to establish connection!",
   "trying": "~1~bTrying to connect",
   "tooltip-status-bar": "This shows your username, server ip and the channel you are into.",
-  "terminated": "~1~a[Server]~r~fThe remote host has terminated the connection..",
-  "closed": "~1~a[Server]~r~fThe connection was closed.."
+  "terminated": "~1~a[Client]~r~fThe remote host has terminated the connection..",
+  "closed": "~1~a[Client]~r~fThe connection was closed.."
 }

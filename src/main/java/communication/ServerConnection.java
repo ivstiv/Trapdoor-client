@@ -44,6 +44,7 @@ public class ServerConnection extends AbstractConnection {
                                 RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
                                 close(false);
+                                break;
 
                             }else if(code == 201) {
                                 String msg = String.format("%s (%s): %s",
@@ -51,6 +52,7 @@ public class ServerConnection extends AbstractConnection {
                                 RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
                                 close(false);
+                                break;
 
                             }else if(code == 202) {
                                 String msg = String.format("%s (%s): %s",
@@ -58,6 +60,7 @@ public class ServerConnection extends AbstractConnection {
                                 RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
                                 close(false);
+                                break;
 
                             }else if(code == 203) {
                                 String msg = String.format("%s (%s): %s",
@@ -65,11 +68,8 @@ public class ServerConnection extends AbstractConnection {
                                 RichText status = new RichText(msg);
                                 controller.setStatusBar(status);
                                 close(false);
-
-                            }else if(code == 204) {
-                                controller.print(data.getMessage("unknown-command"));
+                                break;
                             }
-                            break;
                         case MSG:
                             String username = r.getContent().get("sender").getAsString();
                             String message = r.getContent().get("message").getAsString();
@@ -83,6 +83,9 @@ public class ServerConnection extends AbstractConnection {
                             }else if(action.equals("update_statusbar")) {
                                 String channel = r.getContent().get("channel").getAsString();
                                 controller.setStatusBar(new RichText("~1~g"+getUSERNAME()+"~l@~d"+getIP()+"~l:~c~/"+channel+" ~l$"));
+                                break;
+                            }else if(action.equals("reset_statusbar")) {
+                                controller.setStatusBar(new RichText("~1~gUsername~l@~d192.168.0.1~l:~c~/example ~l$"));
                                 break;
                             }
                             break;
