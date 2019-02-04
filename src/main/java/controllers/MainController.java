@@ -55,7 +55,9 @@ public class MainController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
 
-        addPrivateMsg("ivan", "nasko", "taina");
+        settingsBtn.setOnMouseClicked(event -> {
+            openSudoWindow("/broadcast all Helllooooooo :D", "s97HF8e3y2e");
+        });
 
         MenuItem item = new MenuItem("New connection");
         item.setOnAction(event -> {
@@ -298,6 +300,22 @@ public class MainController implements Initializable {
         Scene scene = null;
         try {
             scene = new Scene((Parent) loader.load(), 400, 600);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void openSudoWindow(String command, String sessionId) {
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/sudo.fxml"));
+        loader.setController(new SudoController(stage, command, sessionId));
+        Scene scene = null;
+        try {
+            scene = new Scene((Parent) loader.load(), 600, 400);
         } catch (IOException e) {
             e.printStackTrace();
         }
