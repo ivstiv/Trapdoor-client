@@ -8,24 +8,26 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../css/connect.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+<GridPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../css/connect.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.0" minWidth="10.0" prefWidth="300.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="299.0" minWidth="10.0" prefWidth="300.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="128.0" minHeight="4.0" prefHeight="69.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="262.0" minHeight="10.0" prefHeight="112.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="134.0" minHeight="10.0" prefHeight="134.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="128.0" minHeight="4.0" prefHeight="100.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="134.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label text="CONFIRM PASSWORD" textFill="WHITE" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+      <Label fx:id="titleLabel" text="[sudo] password for " textFill="WHITE" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
          <font>
-            <Font name="Consolas Bold" size="32.0" />
+            <Font name="Consolas Bold" size="26.0" />
          </font>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
       </Label>
-      <TextField fx:id="cmdField" disable="true" editable="false" prefHeight="50.0" prefWidth="346.0" styleClass="field" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+      <TextField fx:id="cmdField" disable="true" editable="false" prefHeight="50.0" prefWidth="346.0" promptText="dsadsadasd" styleClass="field" GridPane.columnSpan="2" GridPane.halignment="CENTER">
          <font>
             <Font name="Consolas Bold" size="20.0" />
          </font>
@@ -36,15 +38,7 @@
             <Insets bottom="12.0" left="10.0" right="10.0" top="12.0" />
          </padding>
       </TextField>
-      <Label contentDisplay="CENTER" prefHeight="30.0" prefWidth="28.0" text="➤" textAlignment="CENTER" textFill="WHITE" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-         <font>
-            <Font name="Consolas Bold" size="58.0" />
-         </font>
-         <GridPane.margin>
-            <Insets bottom="40.0" />
-         </GridPane.margin>
-      </Label>
-      <Button fx:id="executeBtn" defaultButton="true" mnemonicParsing="false" prefWidth="600.0" text="EXECUTE" textFill="WHITE" GridPane.columnSpan="2" GridPane.rowIndex="3">
+      <Button fx:id="executeBtn" defaultButton="true" mnemonicParsing="false" prefWidth="600.0" text="EXECUTE" textFill="WHITE" GridPane.columnSpan="2" GridPane.rowIndex="2">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
@@ -52,16 +46,24 @@
             <Insets left="40.0" right="40.0" />
          </GridPane.margin>
       </Button>
-      <PasswordField fx:id="passwordField" promptText="Sudo password. . ." styleClass="field" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <PasswordField fx:id="passwordField" promptText="* * * *" styleClass="field" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <font>
-            <Font name="Consolas Bold" size="25.0" />
+            <Font name="Consolas Bold" size="20.0" />
          </font>
          <padding>
             <Insets bottom="12.0" left="10.0" right="10.0" top="12.0" />
          </padding>
          <GridPane.margin>
-            <Insets left="40.0" right="40.0" />
+            <Insets left="40.0" right="40.0" top="100.0" />
          </GridPane.margin>
       </PasswordField>
+      <Label fx:id="titleLabel1" text="[ &gt;_ ]" textFill="WHITE" GridPane.columnSpan="2" GridPane.halignment="CENTER">
+         <font>
+            <Font name="Consolas Bold" size="35.0" />
+         </font>
+         <GridPane.margin>
+            <Insets bottom="50.0" />
+         </GridPane.margin>
+      </Label>
    </children>
 </GridPane>

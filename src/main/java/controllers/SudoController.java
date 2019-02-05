@@ -1,10 +1,17 @@
 package controllers;
 
+import com.google.gson.JsonObject;
+import communication.ServerConnection;
+import core.ServiceLocator;
+import data.Request;
+import data.RequestType;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -19,6 +26,7 @@ public class SudoController implements Initializable {
 
     @FXML private Button executeBtn;
     @FXML private TextField cmdField, passwordField;
+    @FXML private Label titleLabel;
     @FXML private GridPane pane;
     private String sessionId, command;
     private Stage stage;
@@ -28,13 +36,33 @@ public class SudoController implements Initializable {
 
         cmdField.appendText(command);
 
+        Platform.runLater(() -> passwordField.requestFocus());
+
+        if(ServiceLocator.hasSerivce(ServerConnection.class)) {
+            ServerConnection conn = ServiceLocator.getService(ServerConnection.class);
+
+            titleLabel.setText(titleLabel.getText()+conn.getUSERNAME()+":");
+        }
+
         executeBtn.setOnAction(event -> {
-            System.out.println(sessionId);
+            if(ServiceLocator.hasSerivce(ServerConnection.class)) {
+                ServerConnection conn = ServiceLocator.getService(ServerConnection.class);
+
+                conn.getUSERNAME();
+
+                // send action for password confirmation
+                JsonObject payload = new JsonObject();
+                payload.addProperty("action", "confirm_sudo");
+                payload.addProperty("session_id", sessionId);
+                payload.addProperty("sudo_password", passwordField.getText().trim());
+                Request confirmationReq = new Request(RequestType.ACTION, payload);
+                conn.sendRequest(confirmationReq);
+            }
             stage.close();
         });
 
         // submit with enter
-        cmdField.setOnKeyPressed((event) -> {
+        passwordField.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.ENTER) {
                 event.consume();
                 executeBtn.fire();

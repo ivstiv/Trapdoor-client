@@ -94,6 +94,14 @@ public class ServerConnection extends AbstractConnection {
                             }else if(action.equals("reset_statusbar")) {
                                 controller.setStatusBar(new RichText("~1~gUsername~l@~d192.168.0.1~l:~c~/example ~l$"));
                                 break;
+                            }else if(action.equals("confirm_sudo")) {
+                                String sessionId = r.getContent().get("session_id").getAsString();
+                                String command = r.getContent().get("session_cmd").getAsString();
+                                controller.openSudoWindow(command, sessionId);
+                                break;
+                            }else if(action.equals("clear_chat")) {
+                                controller.clearChat();
+                                break;
                             }
                             break;
                         default:
