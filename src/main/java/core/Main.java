@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import controllers.MainController;
+import misc.ResizeHelper;
 
 public class Main extends Application {
 
@@ -41,11 +42,11 @@ public class Main extends Application {
         fxmlLoader.setLocation(getClass().getResource("/fxml/main.fxml"));
         fxmlLoader.setController(mainController);
         Parent root = fxmlLoader.load();
-        primaryStage.setResizable(true);
         //remove window decoration
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("Trapdoor");
         primaryStage.setScene(new Scene(root, 1280, 720));
+        ResizeHelper.addResizeListener(primaryStage);
         primaryStage.show();
     }
 
