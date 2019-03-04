@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Trapdoor-client" target="8" />
+      <module name="Trapdoor-client" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

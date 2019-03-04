@@ -6,3 +6,13 @@ RSA and Double ratchet ideas:
     https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9
     https://crypto.stackexchange.com/questions/40757/key-derivation-functions-kdf-what-are-main-purposes-how-can-they-be-used
     http://webee.technion.ac.il/~hugo/kdf/
+
+Todos:
+    - Random username generation(may be from a list with funny names)
+    - Submit connect on enter(similar to sudo window, check the implementation)
+    - Settle on colors and codes
+    - enable copy-ing messages
+    - settings window (Timezone, statusbar, default name)
+    - icon for the stage
+    - license
+    - readme
