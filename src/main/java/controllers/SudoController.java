@@ -6,6 +6,7 @@ import core.ServiceLocator;
 import data.Request;
 import data.RequestType;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,6 +32,14 @@ public class SudoController implements Initializable {
     private String sessionId, command;
     private Stage stage;
 
+
+    /*
+        executeBtn.fire() causes the listener to fire 2 times which didn't make any
+        sense to me so this is why this variable exists. To prevent double sending..
+        // TODO: 10-Mar-19 review this bug in the future!
+     */
+    private boolean triggered;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -44,11 +53,13 @@ public class SudoController implements Initializable {
             titleLabel.setText(titleLabel.getText()+conn.getUSERNAME()+":");
         }
 
-        executeBtn.setOnAction(event -> {
+        executeBtn.setOnAction((event) -> {
+
+            if(passwordField.getText().trim().isEmpty()) return;
+            if(triggered) return; // check the comment on the top to see why this is here :D
+
             if(ServiceLocator.hasSerivce(ServerConnection.class)) {
                 ServerConnection conn = ServiceLocator.getService(ServerConnection.class);
-
-                conn.getUSERNAME();
 
                 // send action for password confirmation
                 JsonObject payload = new JsonObject();
@@ -57,6 +68,7 @@ public class SudoController implements Initializable {
                 payload.addProperty("sudo_password", passwordField.getText().trim());
                 Request confirmationReq = new Request(RequestType.ACTION, payload);
                 conn.sendRequest(confirmationReq);
+                triggered = true;
             }
             stage.close();
         });
