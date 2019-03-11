@@ -35,9 +35,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ResourceBundle;
-import java.util.TimeZone;
+import java.util.*;
 
 public class MainController implements Initializable {
 
@@ -48,6 +46,10 @@ public class MainController implements Initializable {
     @FXML private HBox topBar;
     @FXML private TextFlow bashrc;
     @FXML private TextArea chatInput;
+
+    private LinkedList<String> inputHistory = new LinkedList<>();
+    private int historyPointer = 0;
+    private final int HISTORY_LENGTH = 16;
 
     public MainController(Stage stage) {
         this.stage = stage;
@@ -102,15 +104,28 @@ public class MainController implements Initializable {
                         chatInput.setText("");
                         chat.scrollTo(chat.getItems().size());
                         if(ServiceLocator.hasSerivce(ServerConnection.class)) {
-                            String username = ServiceLocator.getService(ServerConnection.class).getUSERNAME();
-//                            if(!text.startsWith("/"))
-//                                addPublicMsg(username, text);
+
+                            // add the message to the history
+                            inputHistory.addFirst(text);
+                            historyPointer = 0;
+                            if(inputHistory.size() > HISTORY_LENGTH)
+                                inputHistory.removeLast();
+
+                            // send the message
                             JsonObject payload = new JsonObject();
                             payload.addProperty("message", text);
                             Request r = new Request(RequestType.MSG, payload);
                             ServiceLocator.getService(ServerConnection.class).sendRequest(r);
                         }
                     }
+                }else if(event.getCode() == KeyCode.UP) {
+                    chatInput.setText(inputHistory.get(historyPointer));
+                    if(historyPointer < HISTORY_LENGTH && historyPointer < inputHistory.size()-1)
+                        historyPointer++;
+                }else if(event.getCode() == KeyCode.DOWN) {
+                    if (historyPointer > 0)
+                        historyPointer--;
+                    chatInput.setText(inputHistory.get(historyPointer));
                 }
             }
         });
