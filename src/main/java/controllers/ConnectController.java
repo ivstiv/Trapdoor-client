@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -99,7 +100,8 @@ public class ConnectController implements Initializable {
             }
         });
 
-        connectBtn.setOnMouseClicked(event -> {
+        connectBtn.setOnAction(event -> {
+            System.out.println("SSSSSSSSSSSSSSSSSS");
             connectMain.clearChat();
 
             // stop and remove previous connection
@@ -123,6 +125,14 @@ public class ConnectController implements Initializable {
             content.addProperty("password", password.getText());
             Request connect = new Request(RequestType.CONNECT, content);
             con.sendRequest(connect);
+        });
+
+        // submit with enter
+        pane.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                event.consume();
+                connectBtn.fire();
+            }
         });
 
 

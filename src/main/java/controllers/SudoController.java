@@ -32,14 +32,6 @@ public class SudoController implements Initializable {
     private String sessionId, command;
     private Stage stage;
 
-
-    /*
-        executeBtn.fire() causes the listener to fire 2 times which didn't make any
-        sense to me so this is why this variable exists. To prevent double sending..
-        // TODO: 10-Mar-19 review this bug in the future!
-     */
-    private boolean triggered;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -56,7 +48,6 @@ public class SudoController implements Initializable {
         executeBtn.setOnAction((event) -> {
 
             if(passwordField.getText().trim().isEmpty()) return;
-            if(triggered) return; // check the comment on the top to see why this is here :D
 
             if(ServiceLocator.hasSerivce(ServerConnection.class)) {
                 ServerConnection conn = ServiceLocator.getService(ServerConnection.class);
@@ -68,13 +59,12 @@ public class SudoController implements Initializable {
                 payload.addProperty("sudo_password", passwordField.getText().trim());
                 Request confirmationReq = new Request(RequestType.ACTION, payload);
                 conn.sendRequest(confirmationReq);
-                triggered = true;
             }
             stage.close();
         });
 
         // submit with enter
-        passwordField.setOnKeyPressed((event) -> {
+        pane.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.ENTER) {
                 event.consume();
                 executeBtn.fire();
