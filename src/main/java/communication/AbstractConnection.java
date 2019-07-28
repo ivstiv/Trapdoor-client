@@ -2,7 +2,6 @@ package communication;
 
 import com.google.gson.JsonObject;
 import communication.security.AES;
-import communication.security.AES_OLD;
 import communication.security.RSA;
 import controllers.MainController;
 import core.ServiceLocator;
@@ -27,6 +26,7 @@ public abstract class AbstractConnection {
     // User data
     private final String IP, USERNAME, PASSWORD;
     private final int PORT;
+    protected String channel;
     protected DataLoader data = ServiceLocator.getService(DataLoader.class);
 
     // Communication objects
@@ -68,7 +68,7 @@ public abstract class AbstractConnection {
 
             } catch (IOException e) {
                 System.err.println("Exception in connect(): " + e.getMessage());
-                if(ServiceLocator.hasSerivce(MainController.class)) {
+                if(ServiceLocator.hasService(MainController.class)) {
                     String msg = String.format("%s (%s): %s",
                             data.getMessage("trying"), getIP(), data.getMessage("failed-connection"));
                     RichText status = new RichText(msg);
@@ -192,6 +192,7 @@ public abstract class AbstractConnection {
     public String getIP()       {return this.IP;}
     public String getUSERNAME() {return this.USERNAME;}
     public String getPASSWORD() {return this.PASSWORD;}
+    public String getChannel()  {return this.channel;}
     public int    getPORT()     {return  this.PORT;}
 
     protected abstract void transmissionControl();

@@ -9,7 +9,6 @@ RSA and Double ratchet ideas:
 
 Todos:
     - Random username generation(may be from a list with funny names)
-    - Submit connect on enter(similar to sudo window, check the implementation)
     - Settle on colors and codes
     - enable copy-ing messages
     - settings window (Timezone, statusbar, default name)

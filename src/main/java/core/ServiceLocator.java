@@ -33,7 +33,7 @@ public final class ServiceLocator {
         }
     }
 
-    public static boolean hasSerivce(Class<?> c) {
+    public static boolean hasService(Class<?> c) {
         return services.containsKey(c);
     }
 

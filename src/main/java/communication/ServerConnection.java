@@ -2,6 +2,7 @@ package communication;
 
 import controllers.MainController;
 import core.ServiceLocator;
+import data.Config;
 import data.Request;
 import data.RequestType;
 import misc.RichText;
@@ -88,11 +89,13 @@ public class ServerConnection extends AbstractConnection {
                                 controller.print(r.getContent().get("message").getAsString());
                                 break;
                             }else if(action.equals("update_statusbar")) {
-                                String channel = r.getContent().get("channel").getAsString();
-                                controller.setStatusBar(new RichText("~1~g"+getUSERNAME()+"~l@~d"+getIP()+"~l:~c~/"+channel+" ~l$"));
+                                String newchannel = r.getContent().get("channel").getAsString();
+                                controller.setStatusBar(getUSERNAME(),getIP(),newchannel);
+                                this.channel = newchannel;
                                 break;
                             }else if(action.equals("reset_statusbar")) {
-                                controller.setStatusBar(new RichText("~1~gUsername~l@~d192.168.0.1~l:~c~/example ~l$"));
+                                this.channel = "channel";
+                                controller.setStatusBar(Config.getString("username"),"192.168.0.1","channel");
                                 break;
                             }else if(action.equals("confirm_sudo")) {
                                 String sessionId = r.getContent().get("session_id").getAsString();

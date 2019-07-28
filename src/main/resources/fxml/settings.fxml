@@ -36,7 +36,7 @@
             <Insets bottom="20.0" left="20.0" />
          </GridPane.margin>
       </Label>
-      <TextField fx:id="username" prefHeight="40.0" prefWidth="500.0" styleClass="field" text="User97262" GridPane.rowIndex="1">
+      <TextField fx:id="username" prefHeight="40.0" prefWidth="500.0" styleClass="field" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="20.0" right="20.0" top="50.0" />
          </GridPane.margin>
@@ -60,7 +60,7 @@
             <Insets bottom="20.0" />
          </GridPane.margin>
       </Label>
-      <TextField fx:id="ipField" prefHeight="40.0" prefWidth="500.0" styleClass="field" text="&amp;1&amp;g{username}&amp;l@&amp;d{ip}&amp;l:&amp;c~/{channel} &amp;l$" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <TextField fx:id="statusbar" prefHeight="40.0" prefWidth="500.0" styleClass="field" GridPane.columnSpan="2" GridPane.rowIndex="2">
          <font>
             <Font name="Consolas Bold" size="18.0" />
          </font>
@@ -76,7 +76,7 @@
             <Insets bottom="20.0" left="140.0" />
          </GridPane.margin>
       </Label>
-      <Button fx:id="connectBtn" mnemonicParsing="false" prefWidth="500.0" text="SAVE" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+      <Button fx:id="saveBtn" mnemonicParsing="false" prefWidth="500.0" text="SAVE" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="3">
          <font>
             <Font name="Consolas Bold" size="25.0" />
          </font>
@@ -92,9 +92,9 @@
             <Insets right="20.0" />
          </GridPane.margin>
       </Button>
-      <MenuButton mnemonicParsing="false" prefHeight="40.0" prefWidth="500.0" styleClass="button-custom" stylesheets="@../css/style.css" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <MenuButton fx:id="timezone" mnemonicParsing="false" prefHeight="40.0" prefWidth="500.0" styleClass="button-custom" stylesheets="@../css/style.css" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
         <items>
-          <MenuItem mnemonicParsing="false" text="GMT" />
+          <MenuItem mnemonicParsing="false" text="GMT+0" />
           <MenuItem mnemonicParsing="false" text="GMT+1" />
             <MenuItem mnemonicParsing="false" text="GMT+2" />
             <MenuItem mnemonicParsing="false" text="GMT+3" />
@@ -126,12 +126,12 @@
             <Insets right="160.0" top="50.0" />
          </GridPane.margin>
          <font>
-            <Font name="Consolas Bold" size="18.0" />
+            <Font name="Consolas Bold" size="16.0" />
          </font>
       </MenuButton>
-      <MenuButton mnemonicParsing="false" prefHeight="40.0" prefWidth="500.0" styleClass="button-custom" stylesheets="@../css/style.css" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <MenuButton fx:id="language" mnemonicParsing="false" prefHeight="40.0" prefWidth="500.0" styleClass="button-custom" stylesheets="@../css/style.css" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
-            <Font name="Consolas Bold" size="18.0" />
+            <Font name="Consolas Bold" size="17.0" />
          </font>
          <items>
             <MenuItem mnemonicParsing="false" text="English" />

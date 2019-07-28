@@ -3,10 +3,7 @@ package controllers;
 import com.google.gson.JsonObject;
 import communication.ServerConnection;
 import core.ServiceLocator;
-import data.DataLoader;
-import data.Request;
-import data.RequestType;
-import data.SavedConnection;
+import data.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -58,7 +55,8 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         settingsBtn.setOnMouseClicked(event -> {
-            openSudoWindow("/broadcast all Helllooooooo :D", "s97HF8e3y2e");
+            //openSudoWindow("/broadcast all Helllooooooo :D", "s97HF8e3y2e");
+            openSettingsWindow();
         });
 
         MenuItem item = new MenuItem("New connection");
@@ -79,10 +77,7 @@ public class MainController implements Initializable {
         }
 
         // set default status bar
-        RichText bsh = new RichText("~1~gUsername~l@~d192.168.0.1~l:~c~/example ~l$");
-        bsh.setCustomSize(20);
-        bsh.setCustomFont("Consolas");
-        setStatusBar(bsh);
+        setStatusBar(Config.getString("username"),"192.168.0.1","channel");
 
         Tooltip tp = new Tooltip(dl.getMessage("tooltip-status-bar"));
         tp.setFont(Font.font("Consolas",FontWeight.BOLD,15));
@@ -103,7 +98,7 @@ public class MainController implements Initializable {
                         event.consume();
                         chatInput.setText("");
                         chat.scrollTo(chat.getItems().size());
-                        if(ServiceLocator.hasSerivce(ServerConnection.class)) {
+                        if(ServiceLocator.hasService(ServerConnection.class)) {
 
                             // add the message to the history
                             inputHistory.addFirst(text);
@@ -133,7 +128,7 @@ public class MainController implements Initializable {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    if(ServiceLocator.hasSerivce(ServerConnection.class)) {
+                    if(ServiceLocator.hasService(ServerConnection.class)) {
                         ServerConnection con = ServiceLocator.getInitialisedService(ServerConnection.class);
                         con.close(true);
                     }
@@ -181,7 +176,7 @@ public class MainController implements Initializable {
         Platform.runLater(() -> {
             Date date = new Date(System.currentTimeMillis());
             DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-            formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            formatter.setTimeZone(TimeZone.getTimeZone(Config.getString("timezone")));
             String dateFormatted = formatter.format(date);
 
             Text line1 = new Text("\u2554\u2550[");
@@ -231,7 +226,7 @@ public class MainController implements Initializable {
         Platform.runLater(() -> {
             Date date = new Date(System.currentTimeMillis());
             DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-            formatter.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+            formatter.setTimeZone(TimeZone.getTimeZone(Config.getString("timezone")));
             String dateFormatted = formatter.format(date);
 
             Text line1 = new Text("\u2554\u2550[");
@@ -304,6 +299,32 @@ public class MainController implements Initializable {
         }
     }
 
+
+    public void setStatusBar(String username, String ip, String channel) {
+
+        String template = Config.getString("statusbar")
+                .replaceFirst("%username%", username)
+                .replaceFirst("%ip%", ip)
+                .replaceFirst("%channel%", channel);
+
+        RichText msg = new RichText(template);
+
+        if(Thread.currentThread().getName().contains("JavaFX")) {
+            msg.setCustomSize(20);
+            msg.setCustomFont("Consolas");
+            bashrc.getChildren().clear();
+            for(Node t : msg.translateCodes())
+                bashrc.getChildren().add(t);
+        }else{
+            Platform.runLater(() -> {
+                msg.setCustomSize(20);
+                msg.setCustomFont("Consolas");
+                bashrc.getChildren().clear();
+                for(Node t : msg.translateCodes())
+                    bashrc.getChildren().add(t);
+            });
+        }
+    }
     // based on the argument of IP it will change the button from save to delete
     public void openConnectWindow(String ip) {
         Stage stage = new Stage();
@@ -327,6 +348,24 @@ public class MainController implements Initializable {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/fxml/sudo.fxml"));
             loader.setController(new SudoController(stage, command, sessionId));
+            Scene scene = null;
+            try {
+                scene = new Scene((Parent) loader.load(), 600, 400);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(scene);
+            stage.show();
+        });
+    }
+
+    public void openSettingsWindow() {
+        Platform.runLater(() -> {
+            Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/settings.fxml"));
+            loader.setController(new SettingsController(stage, this));
             Scene scene = null;
             try {
                 scene = new Scene((Parent) loader.load(), 600, 400);

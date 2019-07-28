@@ -3,29 +3,21 @@ package controllers;
 import com.google.gson.JsonObject;
 import communication.ServerConnection;
 import core.ServiceLocator;
-import data.DataLoader;
-import data.Request;
-import data.RequestType;
-import data.SavedConnection;
+import data.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import misc.RichText;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
 
 public class ConnectController implements Initializable {
 
@@ -45,6 +37,8 @@ public class ConnectController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         DataLoader dl = ServiceLocator.getService(DataLoader.class);
+
+        username.setText(Config.getString("username"));
 
         cancelBtn.setOnAction(event -> stage.close());
 
@@ -101,11 +95,10 @@ public class ConnectController implements Initializable {
         });
 
         connectBtn.setOnAction(event -> {
-            System.out.println("SSSSSSSSSSSSSSSSSS");
             connectMain.clearChat();
 
             // stop and remove previous connection
-            if(ServiceLocator.hasSerivce(ServerConnection.class)) {
+            if(ServiceLocator.hasService(ServerConnection.class)) {
               ServiceLocator.getService(ServerConnection.class).close(true);
               ServiceLocator.removeService(ServerConnection.class);
             }
