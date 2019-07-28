@@ -1,25 +1,19 @@
 package controllers;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import communication.ServerConnection;
 import core.ServiceLocator;
 import data.Config;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.AbstractMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
@@ -64,10 +58,10 @@ public class SettingsController implements Initializable {
             stage.close();
         });
 
-        timezone.getItems().stream().forEach(item ->
-            item.setOnAction(event -> {
-                timezone.setText(item.getText());
-            })
+        timezone.getItems().forEach(item ->
+            item.setOnAction(event ->
+                    timezone.setText(item.getText())
+            )
         );
 
         // Make the window draggable

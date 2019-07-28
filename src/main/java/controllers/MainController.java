@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import communication.ServerConnection;
 import core.ServiceLocator;
 import data.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,9 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -26,9 +26,11 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import misc.RichText;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -216,6 +218,26 @@ public class MainController implements Initializable {
             flow.getChildren().addAll(line1,time,line2,nick,line3,type, line5, line4);
             for(Node t : msg.translateCodes())
                 flow.getChildren().add(t);
+
+            // copy message to clipboard with right click
+            flow.setOnMouseClicked(event -> {
+                if(event.getButton() == MouseButton.SECONDARY) {
+                    // we cant copy textflows because they don't have text property
+                    // the message element is a textflow consisting of multiple Text objects which we can copy
+                    if(event.getTarget() instanceof TextFlow) return;
+
+                    Text pickedItem = (Text) event.getTarget();
+                    String textToCopy = pickedItem.getText();
+                    Clipboard clipboard = Clipboard.getSystemClipboard();
+                    ClipboardContent content = new ClipboardContent();
+                    content.putString(textToCopy);
+                    clipboard.setContent(content);
+                }
+            });
+
+            Tooltip copyToolTip = new Tooltip("Right click to copy.");
+            copyToolTip.setFont(Font.font("Consolas",FontWeight.BOLD,15));
+            Tooltip.install(flow, copyToolTip);
             chat.getItems().add(flow);
 
             chat.scrollTo(chat.getItems().size()-1);
@@ -258,8 +280,29 @@ public class MainController implements Initializable {
             // TODO: 28-Oct-18 be aware of this bug
             flow.setMaxWidth(1230);
             flow.getChildren().addAll(line1,time,line2,nick,line3,line4);
-            for(Node t : msg.translateCodes())
+            for(Node t : msg.translateCodes()) {
                 flow.getChildren().add(t);
+            }
+
+            // copy message to clipboard with right click
+            flow.setOnMouseClicked(event -> {
+                if(event.getButton() == MouseButton.SECONDARY) {
+                    // we cant copy textflows because they don't have text property
+                    // the message element is a textflow consisting of multiple Text objects which we can copy
+                    if(event.getTarget() instanceof TextFlow) return;
+
+                    Text pickedItem = (Text) event.getTarget();
+                    String textToCopy = pickedItem.getText();
+                    Clipboard clipboard = Clipboard.getSystemClipboard();
+                    ClipboardContent content = new ClipboardContent();
+                    content.putString(textToCopy);
+                    clipboard.setContent(content);
+                }
+            });
+
+            Tooltip copyToolTip = new Tooltip("Right click to copy.");
+            copyToolTip.setFont(Font.font("Consolas",FontWeight.BOLD,15));
+            Tooltip.install(flow, copyToolTip);
             chat.getItems().add(flow);
 
             chat.scrollTo(chat.getItems().size()-1);

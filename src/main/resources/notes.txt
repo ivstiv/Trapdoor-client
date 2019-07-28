@@ -10,8 +10,6 @@ RSA and Double ratchet ideas:
 Todos:
     - Random username generation(may be from a list with funny names)
     - Settle on colors and codes
-    - enable copy-ing messages
-    - settings window (Timezone, statusbar, default name)
     - icon for the stage
     - license
     - readme
